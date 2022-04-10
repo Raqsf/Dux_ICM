@@ -12,14 +12,12 @@ class _ProfilePageState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.all(30.0),
-        children: <Widget>[
-          buildTop(),
-          buildContent(),
-        ],
-      ),
+    return ListView(
+      padding: EdgeInsets.all(30.0),
+      children: <Widget>[
+        buildTop(),
+        buildContent(),
+      ],
     );
   }
 

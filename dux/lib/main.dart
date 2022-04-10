@@ -14,10 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primaryColor: Colors.black),
-      // theme: ThemeData(
-      //   primarySwatch: Colors.deepOrange,
-      // ),
+      //theme: ThemeData(primaryColor: Colors.black),
       home: const MyFirstScreen(),
     );
   }
@@ -33,22 +30,23 @@ class MyFirstScreen extends StatefulWidget {
 class _MyFirstScreenState extends State<MyFirstScreen> {
   // state variables
   int _selectedIndex = 0;
-  PageController pageController = PageController();
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    // pageController.animateToPage(index,
-    //     duration: const Duration(milliseconds: 1000), curve: Curves.decelerate);
   }
 
   static List<Widget> _widgetOptions = <Widget>[
     FirstScreen(),
     SecondScreen(),
     ThirdScreen(),
-    Container(),
-    Container(),
+    Container(
+      child: const Text("Fourth page"),
+    ),
+    Container(
+      child: const Text("Fifth page"),
+    ),
     ProfilePage(),
   ];
 
@@ -62,9 +60,8 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
           centerTitle: true,
           backgroundColor: Color.fromARGB(250, 5, 156, 156),
         ),
-        body: PageView(
-          controller: pageController,
-          children: _widgetOptions,
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(canvasColor: Color(0xfff0f0f0)),
@@ -74,9 +71,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
                 unselectedItemColor: const Color(0xffbbbbbb),
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home_filled),
-                    label: "",
-                  ),
+                      icon: Icon(Icons.home_filled), label: ""),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.calendar_month_outlined), label: ""),
                   BottomNavigationBarItem(
@@ -89,7 +84,6 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
                 ],
                 currentIndex: _selectedIndex,
                 selectedItemColor: const Color(0xff777777),
-                onTap: _onItemTapped //)
-                )));
+                onTap: _onItemTapped)));
   }
 }
