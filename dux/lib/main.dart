@@ -3,6 +3,7 @@ import './pages/FirstScreen.dart';
 import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
+import 'package:dux/pages/Home_Data/HomePage.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   }
 
   static List<Widget> _widgetOptions = <Widget>[
-    FirstScreen(),
+    HomePage(),
     SecondScreen(),
     ThirdScreen(),
     Container(
