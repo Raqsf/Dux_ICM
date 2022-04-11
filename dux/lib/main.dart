@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import './pages/FirstScreen.dart';
 import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,6 +14,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        // brightness: Brightness.dark,
+        primaryColor: const Color.fromARGB(250, 5, 156, 156),
+
+        // Define the default font family.
+        // fontFamily: 'Georgia',
+
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline2: TextStyle(fontSize: 38.0, color: Colors.black),
+          headline3: TextStyle(fontSize: 20.0, color: Color(0xff777777)),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
       //theme: ThemeData(primaryColor: Colors.black),
       home: const MyFirstScreen(),
     );
@@ -38,8 +56,8 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
     });
   }
 
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomePage(),
     SecondScreen(),
     ThirdScreen(),
     Container(
@@ -51,21 +69,20 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
     ProfilePage(),
   ];
 
-  static const List<Widget> _pages = <Widget>[];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('My App'),
+          title: const Text('Dux'),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(250, 5, 156, 156),
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(canvasColor: Color(0xfff0f0f0)),
+            data: Theme.of(context)
+                .copyWith(canvasColor: const Color(0xfff0f0f0)),
             child: BottomNavigationBar(
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
