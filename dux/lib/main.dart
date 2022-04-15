@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         // brightness: Brightness.dark,
-        primaryColor: const Color.fromARGB(250, 5, 156, 156),
+        primaryColor: const Color.fromARGB(250, 46, 168, 137),
 
         // Define the default font family.
         // fontFamily: 'Georgia',
@@ -101,7 +101,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
                       icon: Icon(Icons.person_pin_rounded), label: "")
                 ],
                 currentIndex: _selectedIndex,
-                selectedItemColor: const Color(0xff777777),
+                selectedItemColor: const Color(0xffff7648),
                 onTap: _onItemTapped)));
   }
 }
