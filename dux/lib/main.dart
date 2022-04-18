@@ -1,10 +1,15 @@
+import 'package:dux/viewModels/forecast_view_model.dart';
 import 'package:flutter/material.dart';
 import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider<ForecastViewModel>(
+          create: (_) => ForecastViewModel()),
+    ], child: const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -57,7 +62,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
+    HomePage(),
     SecondScreen(),
     ThirdScreen(),
     Container(
