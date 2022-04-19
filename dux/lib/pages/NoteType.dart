@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'NotesScreen.dart';
+
 class NoteType extends StatelessWidget {
   const NoteType({Key? key}) : super(key: key);
 
@@ -9,29 +11,43 @@ class NoteType extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-              child: Container(
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
-                color: Colors.teal[100]),
-            child: Center(
-                child: Text(
-              "Quick Notes",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-          )),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Notes()),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(28),
+                        color: Colors.teal[100]),
+                    child: Center(
+                        child: Text(
+                      "Quick Notes",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    )),
+                  ))),
           Expanded(
-              child: Container(
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
-                color: Colors.teal[200]),
-            child: Center(
-                child: Text(
-              'Notes',
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-          )),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Notes()),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(28),
+                        color: Colors.teal[200]),
+                    child: Center(
+                        child: Text(
+                      'Notes',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    )),
+                  ))),
         ],
       ),
     );
