@@ -40,6 +40,7 @@ class WeatherController extends WeatherApi {
       }
     }
 
+    location.changeSettings(accuracy: LocationAccuracy.high);
     _locationData = await location.getLocation();
 
     final queryParameters = {

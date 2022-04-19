@@ -11,12 +11,12 @@ class ForecastViewModel with ChangeNotifier {
   bool isRequestError = false;
 
   String? _cityName;
-  double? _temperature;
+  int? _temperature;
   String? _description;
   String? _icon;
 
   String? get cityName => _cityName;
-  double? get temperature => _temperature;
+  int? get temperature => _temperature;
   String? get description => _description;
   String? get icon => _icon;
   String? get iconUrl {

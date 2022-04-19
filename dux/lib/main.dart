@@ -1,3 +1,4 @@
+import 'package:dux/pages/NoteType.dart';
 import 'package:dux/viewModels/forecast_view_model.dart';
 import 'package:flutter/material.dart';
 import './pages/SecondScreen.dart';
@@ -62,15 +63,11 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    const HomePage(),
     SecondScreen(),
     ThirdScreen(),
-    Container(
-      child: const Text("Fourth page"),
-    ),
-    Container(
-      child: const Text("Fifth page"),
-    ),
+    const Text("Fourth page"),
+    const NoteType(),
     ProfilePage(),
   ];
 

@@ -70,12 +70,12 @@ class WeatherResponse {
 }
 
 class TemperatureInfo {
-  final double temperature;
+  final int temperature;
 
   TemperatureInfo(this.temperature);
 
   factory TemperatureInfo.fromJson(Map<String, dynamic> json) {
-    final temperature = json['temp'];
+    final temperature = json['temp'].round();
     return TemperatureInfo(temperature);
   }
 }
