@@ -6,8 +6,12 @@ class Notes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(child: Text('NOTES')),
+      appBar: AppBar(
+        title: const Text('Dux'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      body: Center(child: Text('NOTES')),
     );
   }
 }

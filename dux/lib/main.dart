@@ -1,12 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:dux/pages/NoteType.dart';
 import 'package:dux/viewModels/forecast_view_model.dart';
-import 'package:flutter/material.dart';
 import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider<ForecastViewModel>(
@@ -82,6 +81,20 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
         ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
+          /* child: Navigator(
+          onGenerateRoute: (settings) {
+            Widget page = HomePage();
+            switch (settings.name) {
+              case ('HomePage'):
+                page = HomePage();
+                break;
+              case ('SecondScreen'):
+                page = SecondScreen();
+                break;
+            }
+            return MaterialPageRoute(builder: (_) => page); 
+          },
+        )*/
         ),
         bottomNavigationBar: Theme(
             data: Theme.of(context)
