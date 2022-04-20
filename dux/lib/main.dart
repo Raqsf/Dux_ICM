@@ -6,6 +6,7 @@ import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider<ForecastViewModel>(
@@ -86,6 +87,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
             data: Theme.of(context)
                 .copyWith(canvasColor: const Color(0xfff0f0f0)),
             child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
                 unselectedItemColor: const Color(0xffbbbbbb),

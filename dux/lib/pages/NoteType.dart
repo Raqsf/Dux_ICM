@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:custom_navigator/custom_navigator.dart';
 
 import 'NotesScreen.dart';
 
@@ -13,8 +14,7 @@ class NoteType extends StatelessWidget {
           Expanded(
               child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
+                    Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const Notes()),
                     );
                   },
