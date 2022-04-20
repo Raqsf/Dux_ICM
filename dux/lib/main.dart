@@ -3,6 +3,7 @@ import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
+import 'pages/Calendar_Data/Calendar.dart';
 
 void main() => runApp(const MyApp());
 
@@ -58,7 +59,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    SecondScreen(),
+    Calendar(),
     ThirdScreen(),
     Container(
       child: const Text("Fourth page"),
