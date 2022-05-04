@@ -1,3 +1,5 @@
+import 'package:dux/pages/Annotations_Data/AllAnnotationsScreen.dart';
+import 'package:dux/pages/Notes_Data/AllNotesScreen.dart';
 import 'package:flutter/material.dart';
 // import 'package:custom_navigator/custom_navigator.dart';
 
@@ -15,7 +17,8 @@ class NoteType extends StatelessWidget {
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Notes()),
+                      MaterialPageRoute(
+                          builder: (context) => const AllNotesScreen()),
                     );
                   },
                   child: Container(
@@ -34,7 +37,8 @@ class NoteType extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Notes()),
+                      MaterialPageRoute(
+                          builder: (context) => const AllAnnotationsScreen()),
                     );
                   },
                   child: Container(

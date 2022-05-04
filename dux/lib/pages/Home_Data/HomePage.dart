@@ -23,7 +23,9 @@ class _HomePageState extends State<HomePage> {
   void _search() async {
     final response = await _weatherService.getWeather();
 
-    setState(() => _response = response);
+    if (mounted) {
+      setState(() => _response = response);
+    }
   }
 
   @override
