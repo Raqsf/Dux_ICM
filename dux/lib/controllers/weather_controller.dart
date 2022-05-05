@@ -13,7 +13,7 @@ class WeatherController extends WeatherApi {
   static const apiKey = '2130c6d15d6babf9e0019e82a4b0c931';
 
   @override
-  Future<WeatherResponse> getWeather() async {
+  Future<WeatherResponse?> getWeather() async {
     // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
     Location location = Location();
@@ -26,7 +26,8 @@ class WeatherController extends WeatherApi {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        exit(-1);
+        return null;
+        // exit(-1);
         // return;
       }
     }
@@ -35,7 +36,8 @@ class WeatherController extends WeatherApi {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        exit(-1);
+        return null;
+        // exit(-1);
         // return;
       }
     }
