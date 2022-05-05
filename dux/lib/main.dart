@@ -56,7 +56,6 @@ class MyApp extends StatelessWidget {
         AllLabelsScreen.routeName: (context) =>
             const AllLabelsScreen(isNote: true),
       },
-      //theme: ThemeData(primaryColor: Colors.black),
       home: const MyFirstScreen(),
     );
   }
@@ -98,20 +97,6 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
         ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
-          /* child: Navigator(
-          onGenerateRoute: (settings) {
-            Widget page = HomePage();
-            switch (settings.name) {
-              case ('HomePage'):
-                page = HomePage();
-                break;
-              case ('SecondScreen'):
-                page = SecondScreen();
-                break;
-            }
-            return MaterialPageRoute(builder: (_) => page); 
-          },
-        )*/
         ),
         bottomNavigationBar: Theme(
             data: Theme.of(context)

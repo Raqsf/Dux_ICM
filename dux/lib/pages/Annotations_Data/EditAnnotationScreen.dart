@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -75,6 +74,13 @@ class _EditAnnotationScreenState extends State<EditAnnotationScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    refreshOrGetData(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(systemNavigationBarColor: Colors.grey),
@@ -87,13 +93,13 @@ class _EditAnnotationScreenState extends State<EditAnnotationScreen> {
         child: Scaffold(
           backgroundColor: Colors.grey,
           appBar: AppBar(
-            /* leading: IconButton(
+            leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.of(context).pop();
                 deleteFileList(_tmpAddedImageFiles);
               },
-            ), */
+            ),
             backgroundColor: Theme.of(context).primaryColor,
             actions: [
               IconButton(
@@ -174,19 +180,45 @@ class _EditAnnotationScreenState extends State<EditAnnotationScreen> {
   }
 
   _saveAnnotation() async {
-    print("AQUI");
     final bool isValid = _formKey.currentState!.validate();
 
     if (isValid) {
       final bool isUpdate = (widget.annotation != null);
 
-      if (isUpdate) {
-        _updateAnnotation();
+      if (_imagePaths.isNotEmpty) {
+        if (isUpdate) {
+          _updateAnnotation();
+        } else {
+          _addAnnotation();
+        }
+        Navigator.of(context).pop();
+        deleteFileList(_tmpDeletedImageFiles);
       } else {
-        _addAnnotation();
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Needs at least one image'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: const <Widget>[
+                    Text('To add a note, it needs to have at least one image.'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
-      Navigator.of(context).pop();
-      deleteFileList(_tmpDeletedImageFiles);
     }
   }
 
@@ -295,6 +327,12 @@ class ImagesStaggeredGridView extends StatefulWidget {
 }
 
 class _ImagesStaggeredGridViewState extends State<ImagesStaggeredGridView> {
+  @override
+  void didChangeDependencies() {
+    //Theme.of(context);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.imagePaths.isEmpty) {

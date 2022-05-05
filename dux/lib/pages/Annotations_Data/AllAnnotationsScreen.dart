@@ -71,7 +71,7 @@ class _AllAnnotationsScreenState extends State<AllAnnotationsScreen> {
         ), */
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pop('');
+                  Navigator.of(context).pop();
                 },
                 icon: const Icon(Icons.arrow_back)),
             actions: [
