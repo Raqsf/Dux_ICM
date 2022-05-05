@@ -1,3 +1,4 @@
+import 'package:dux/pages/Schedule_Data/schedule.dart';
 import 'package:flutter/material.dart';
 import './pages/SecondScreen.dart';
 import './pages/ThirdScreen.dart';
@@ -61,7 +62,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     Calendar(),
-    ThirdScreen(),
+    Schedule(),
     Pomodoro(),
     Container(
       child: const Text("Fifth page"),

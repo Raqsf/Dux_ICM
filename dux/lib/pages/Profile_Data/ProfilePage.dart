@@ -28,17 +28,18 @@ class _ProfilePageState extends State<ProfilePage> {
             elevation: 0,
             toolbarHeight: 10,
           ),
-          Center(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: Color.fromRGBO(64, 105, 225, 1),
-                    ),
-                  ))),
+          SizedBox(height: 120.0),
+          // Center(
+          //     child: Padding(
+          //         padding: EdgeInsets.only(bottom: 20),
+          //         child: Text(
+          //           'Edit Profile',
+          //           style: TextStyle(
+          //             fontSize: 30,
+          //             fontWeight: FontWeight.w700,
+          //             color: Color.fromRGBO(64, 105, 225, 1),
+          //           ),
+          //         ))),
           InkWell(
               onTap: () {
                 navigateSecondPage(EditImagePage());
