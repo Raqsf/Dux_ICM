@@ -4,6 +4,7 @@ import './pages/ThirdScreen.dart';
 import 'pages/Profile_Data/ProfilePage.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 import 'pages/Calendar_Data/Calendar.dart';
+import 'pages/Pomodoro_Data/Pomodoro.dart';
 
 void main() => runApp(const MyApp());
 
@@ -61,9 +62,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
     const HomePage(),
     Calendar(),
     ThirdScreen(),
-    Container(
-      child: const Text("Fourth page"),
-    ),
+    Pomodoro(),
     Container(
       child: const Text("Fifth page"),
     ),
