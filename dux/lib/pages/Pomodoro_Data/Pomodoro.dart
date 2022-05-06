@@ -50,7 +50,7 @@ class _PomodoroState extends State<Pomodoro> {
                   strokeWidth: 20.0,
                   strokeCap: StrokeCap.round,
                   textStyle: const TextStyle(
-                    fontSize: 100.0,
+                    fontSize: 30.0,
                     color: Color.fromARGB(178, 76, 175, 120),
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,7 +79,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "Study Time",
                                       style: TextStyle(
-                                        fontSize: 40.0,
+                                        fontSize: 25.0,
                                       ),
                                     ),
                                     SizedBox(
@@ -88,7 +88,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "20 minutes",
                                       style: TextStyle(
-                                          fontSize: 30.0, color: Colors.orange),
+                                          fontSize: 20.0, color: Colors.orange),
                                     ),
                                   ],
                                 ),
@@ -99,7 +99,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "Pause Time",
                                       style: TextStyle(
-                                        fontSize: 40.0,
+                                        fontSize: 25.0,
                                       ),
                                     ),
                                     SizedBox(
@@ -108,7 +108,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "5 minutes",
                                       style: TextStyle(
-                                          fontSize: 30.0, color: Colors.orange),
+                                          fontSize: 20.0, color: Colors.orange),
                                     ),
                                   ],
                                 ),
