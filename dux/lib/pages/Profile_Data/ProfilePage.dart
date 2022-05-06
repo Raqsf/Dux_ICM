@@ -95,7 +95,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Text(
                               getValue,
-                              style: TextStyle(fontSize: 16, height: 1.4),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  height: 1.4,
+                                  color: Colors.black),
                             ))),
                     Icon(
                       Icons.keyboard_arrow_right,
@@ -143,9 +146,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Text(
                                   user.aboutMeDescription,
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.4,
-                                  ),
+                                      fontSize: 16,
+                                      height: 1.4,
+                                      color: Colors.black),
                                 ))))),
                 Icon(
                   Icons.keyboard_arrow_right,
