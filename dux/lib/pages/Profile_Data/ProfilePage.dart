@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 1,
               ),
               Container(
-                  width: 350,
+                  width: double.infinity,
                   height: 40,
                   decoration: BoxDecoration(
                       border: Border(
@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 1),
           Container(
-              width: 350,
+              width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
                   border: Border(
