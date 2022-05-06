@@ -21,24 +21,25 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = UserData.myUser;
 
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             toolbarHeight: 10,
           ),
-          Center(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: Color.fromRGBO(64, 105, 225, 1),
-                    ),
-                  ))),
+          SizedBox(height: 80.0),
+          // Center(
+          //     child: Padding(
+          //         padding: EdgeInsets.only(bottom: 20),
+          //         child: Text(
+          //           'Edit Profile',
+          //           style: TextStyle(
+          //             fontSize: 30,
+          //             fontWeight: FontWeight.w700,
+          //             color: Color.fromRGBO(64, 105, 225, 1),
+          //           ),
+          //         ))),
           InkWell(
               onTap: () {
                 navigateSecondPage(EditImagePage());
@@ -47,9 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 imagePath: user.image,
                 onPressed: () {},
               )),
-          buildUserInfoDisplay(user.name, 'Name', EditNameFormPage()),
-          buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
-          buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
+          buildUserInfoDisplay(user.name, '  Name', EditNameFormPage()),
+          buildUserInfoDisplay(user.phone, '  Phone', EditPhoneFormPage()),
+          buildUserInfoDisplay(user.email, '  Email', EditEmailFormPage()),
           Expanded(
             child: buildAbout(user),
             flex: 4,
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 1,
               ),
               Container(
-                  width: 350,
+                  width: double.infinity,
                   height: 40,
                   decoration: BoxDecoration(
                       border: Border(
@@ -94,7 +95,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Text(
                               getValue,
-                              style: TextStyle(fontSize: 16, height: 1.4),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  height: 1.4,
+                                  color: Colors.black),
                             ))),
                     Icon(
                       Icons.keyboard_arrow_right,
@@ -112,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Tell Us About Yourself',
+            '  Tell Us About Yourself',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -121,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 1),
           Container(
-              width: 350,
+              width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
                   border: Border(
@@ -142,9 +146,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Text(
                                   user.aboutMeDescription,
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.4,
-                                  ),
+                                      fontSize: 16,
+                                      height: 1.4,
+                                      color: Colors.black),
                                 ))))),
                 Icon(
                   Icons.keyboard_arrow_right,

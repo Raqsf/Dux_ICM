@@ -23,6 +23,13 @@ class ColorsConstant {
     Color(0xff9B4D3C),
     Color(0xffBD903F),
   ];
+
+  // background color, secondaryColor
+  static const List<List<Color>> homeColors = [
+    [Color(0xFFFF7648), Color(0xFFFFC278)],
+    [Color(0xFF8F98FF), Color(0xFF182A88)],
+    [Color(0xFFFFC278), Color(0xFF69A6EA)],
+  ];
 }
 
 class TextStyleConstants {

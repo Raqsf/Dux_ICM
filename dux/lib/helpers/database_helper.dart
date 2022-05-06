@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import '../models/label_model.dart';
 import '../models/notes_model.dart';
 import '../models/annotations_model.dart';
+import '../models/schedule_model.dart';
 
 class DatabaseHelper {
   static const dbName = 'note_app.db';
@@ -64,6 +65,13 @@ class DatabaseHelper {
               ${AnnotationField.label} TEXT,
               ${AnnotationField.imagePaths} TEXT,
               ${AnnotationField.createdTime} TEXT
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE $scheduleTable (
+              ${ScheduleField.id} INTEGER PRIMARY KEY AUTOINCREMENT,
+              ${ScheduleField.subject} TEXT
             )
           ''');
       },

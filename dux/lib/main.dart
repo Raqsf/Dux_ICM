@@ -1,29 +1,28 @@
 import 'package:dux/pages/Notes_Data/AllLabelsScreen.dart';
 import 'package:dux/pages/Notes_Data/AllNotesScreen.dart';
+import 'package:dux/pages/Pomodoro_Data/Pomodoro.dart';
+import 'package:dux/providers/schedule_provider.dart';
 import 'package:dux/providers/annotation_provider.dart';
 import 'package:dux/providers/label_provider.dart';
 import 'package:dux/providers/note_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dux/pages/NoteType.dart';
-import 'package:dux/viewModels/forecast_view_model.dart';
-import './pages/ThirdScreen.dart';
-import 'pages/Profile_Data/ProfilePage.dart';
-import 'pages/Calendar_Data/Calendar.dart';
+import 'package:dux/pages/Profile_Data/ProfilePage.dart';
+import 'package:dux/pages/Calendar_Data/Calendar.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 import 'package:provider/provider.dart';
+import 'package:dux/pages/Schedule_Data/schedule.dart';
 
 void main() => runApp(MultiProvider(providers: [
-      ChangeNotifierProvider<ForecastViewModel>(
-          create: (_) => ForecastViewModel()),
       ChangeNotifierProvider(create: (_) => NoteProvider()),
       ChangeNotifierProvider(create: (_) => LabelProvider()),
       ChangeNotifierProvider(create: (_) => AnnotationProvider()),
+      ChangeNotifierProvider(create: (_) => SchedulelProvider())
     ], child: const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +49,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/notes': (context) => const AllNotesScreen(),
-        // DrawerScreen.routeName: (context) => const DrawerScreen(),
         '${AllLabelsScreen.routeName}/annotations': (context) =>
             const AllLabelsScreen(isNote: false),
         AllLabelsScreen.routeName: (context) =>
@@ -81,8 +79,8 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     Calendar(),
-    ThirdScreen(),
-    const Text("Fourth page"),
+    Schedule(),
+    Pomodoro(),
     const NoteType(),
     ProfilePage(),
   ];

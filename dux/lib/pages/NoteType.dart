@@ -1,9 +1,6 @@
 import 'package:dux/pages/Annotations_Data/AllAnnotationsScreen.dart';
 import 'package:dux/pages/Notes_Data/AllNotesScreen.dart';
 import 'package:flutter/material.dart';
-// import 'package:custom_navigator/custom_navigator.dart';
-
-import 'NotesScreen.dart';
 
 class NoteType extends StatelessWidget {
   const NoteType({Key? key}) : super(key: key);
