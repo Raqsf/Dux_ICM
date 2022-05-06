@@ -21,14 +21,14 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = UserData.myUser;
 
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             toolbarHeight: 10,
           ),
-          SizedBox(height: 120.0),
+          SizedBox(height: 80.0),
           // Center(
           //     child: Padding(
           //         padding: EdgeInsets.only(bottom: 20),
@@ -48,9 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 imagePath: user.image,
                 onPressed: () {},
               )),
-          buildUserInfoDisplay(user.name, 'Name', EditNameFormPage()),
-          buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
-          buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
+          buildUserInfoDisplay(user.name, '  Name', EditNameFormPage()),
+          buildUserInfoDisplay(user.phone, '  Phone', EditPhoneFormPage()),
+          buildUserInfoDisplay(user.email, '  Email', EditEmailFormPage()),
           Expanded(
             child: buildAbout(user),
             flex: 4,
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Tell Us About Yourself',
+            '  Tell Us About Yourself',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
