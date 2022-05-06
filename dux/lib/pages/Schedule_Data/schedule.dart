@@ -71,6 +71,8 @@ class _SchedulePageState extends State<Schedule> {
 
     return Scaffold(
         body: Container(
+            child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       child: Column(children: <Widget>[
         SizedBox(height: 40.0),
         Expanded(
@@ -250,7 +252,7 @@ class _SchedulePageState extends State<Schedule> {
           ],
         )),
       ]),
-    ));
+    )));
   }
 
   // Widget builds the display item with the proper formatting to display the user's info
@@ -277,9 +279,13 @@ class _SchedulePageState extends State<Schedule> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
-                  ))),
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                          left: BorderSide(
+                            color: Color.fromARGB(62, 158, 158, 158),
+                            width: 1,
+                          ))),
                   child: Row(children: [
                     Expanded(
                         child: TextButton(
