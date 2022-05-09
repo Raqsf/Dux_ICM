@@ -1,10 +1,19 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:dux/models/weather_models.dart';
 import 'package:dux/services/weather_service.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/app_constants.dart';
 import '../../models/card_model.dart';
+
+// import 'package:pedometer/pedometer.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+
+String formatDate(DateTime d) {
+  return d.toString().substring(0, 19);
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +27,13 @@ class _HomePageState extends State<HomePage> {
   final _weatherService = WeatherService();
 
   WeatherResponse? _response;
+
+  double x = 0.0;
+  double y = 0.0;
+  double z = 0.0;
+  int steps = 0;
+  double distance = 0.0;
+  double previousDistance = 0.0;
 
   void _search() async {
     final response = await _weatherService.getWeather();
@@ -33,131 +49,184 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  double getValue(double x, double y, double z) {
+    double magnitude = sqrt(x * x + y * y + z * z);
+    getPreviousValue();
+    double modDistance = magnitude - previousDistance;
+    setPreviousValue(magnitude);
+    return modDistance;
+  }
+
+  void setPreviousValue(double distance) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.setDouble("preValue", distance);
+  }
+
+  void getPreviousValue() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    setState(() {
+      previousDistance = _pref.getDouble("preValue") ?? 0.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      physics: const ClampingScrollPhysics(),
-      children: [
-        // HEADER
-        Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.topLeft,
-              colors: [
-                Colors.blue,
-                Colors.white,
-              ],
-            )),
-            child: Column(children: [
-              Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Hi ",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                username,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.0),
-                              ),
-                              Text(" !",
-                                  style: Theme.of(context).textTheme.bodyText1),
-                            ],
-                          )
+        body: StreamBuilder<AccelerometerEvent>(
+            stream: SensorsPlatform.instance.accelerometerEvents,
+            builder: (context, snapShort) {
+              if (snapShort.hasData) {
+                x = snapShort.data!.x;
+                y = snapShort.data!.y;
+                z = snapShort.data!.z;
+                distance = getValue(x, y, z);
+                if (distance > 6) {
+                  steps++;
+                }
+              }
+              /* calories = calculateCalories(steps);
+            duration = calculateDuration(steps);
+            miles = calculateMiles(steps); */
+              return ListView(
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  // HEADER
+                  Container(
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          Colors.blue,
+                          Colors.white,
                         ],
-                      ),
-
-                      // WEATHER
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          _response != null
-                              ? Row(
+                      )),
+                      child: Column(children: [
+                        Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
                                   children: [
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 5),
-                                        child: Text(
-                                            '${_response?.tempInfo.temperature} º')),
-                                    Image.network(
-                                        _response?.iconUrl ??
-                                            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Error.svg/1200px-Error.svg.png",
-                                        width: 20),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Hi ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1,
+                                        ),
+                                        Text(
+                                          username,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20.0),
+                                        ),
+                                        Text(" !",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1),
+                                      ],
+                                    )
                                   ],
-                                )
-                              : Row(),
-                          _response != null
-                              ? Row(
+                                ),
+
+                                // WEATHER
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    const Icon(
-                                      Icons.location_on_outlined,
-                                      size: 15,
+                                    _response != null
+                                        ? Row(
+                                            children: [
+                                              Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 5),
+                                                  child: Text(
+                                                      '${_response?.tempInfo.temperature} º')),
+                                              Image.network(
+                                                  _response?.iconUrl ??
+                                                      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Error.svg/1200px-Error.svg.png",
+                                                  width: 20),
+                                            ],
+                                          )
+                                        : Row(),
+                                    _response != null
+                                        ? Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.location_on_outlined,
+                                                size: 15,
+                                              ),
+                                              Text('${_response?.cityName}'),
+                                            ],
+                                          )
+                                        : Row(),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Steps taken: ${steps.toString()}',
+                                        ),
+                                      ],
                                     ),
-                                    Text('${_response?.cityName}'),
                                   ],
                                 )
-                              : Row()
-                        ],
-                      )
-                    ],
-                  )),
+                              ],
+                            )),
 
-              // TODAY'S INFO
-              Container(
-                decoration: const BoxDecoration(
-                    color: Color(0xFFFAFAFA), // same as Colors.grey[50]
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
+                        // TODAY'S INFO
+                        Container(
+                          decoration: const BoxDecoration(
+                              color:
+                                  Color(0xFFFAFAFA), // same as Colors.grey[50]
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Today",
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
+                                  ),
+                                ],
+                              )),
+                        )
+                      ])),
+                  Container(
+                    color: Colors.grey[50],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Today",
-                          style: Theme.of(context).textTheme.headline2,
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            "Your Schedule",
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
                         ),
+                        const Today(isClass: true),
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            "Your Events",
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                        ),
+                        const Today(isClass: false),
                       ],
-                    )),
-              )
-            ])),
-        Container(
-          color: Colors.grey[50],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  "Your Schedule",
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ),
-              const Today(isClass: true),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  "Your Events",
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ),
-              const Today(isClass: false),
-            ],
-          ),
-        ),
-      ],
-    ));
+                    ),
+                  ),
+                ],
+              );
+            }));
   }
 }
 

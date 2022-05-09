@@ -1,296 +1,17 @@
-/* import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-
-class BluetoothScreen extends StatefulWidget {
-  const BluetoothScreen({Key? key}) : super(key: key);
-
-  @override
-  State<BluetoothScreen> createState() => _BluetoothScreenState();
-}
-
-class _BluetoothScreenState extends State<BluetoothScreen> {
-  // Initializing a global key, as it would help us in showing a SnackBar later
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // Get the instance of the bluetooth
-  final FlutterBlue flutterBlue = FlutterBlue.instance;
-  final Map<Guid, List<int>> readValues = Map<Guid, List<int>>();
-  final _writeController = TextEditingController();
-
-  // Define some variables, which will be required later
-  final List<BluetoothDevice> devicesList = [];
-  BluetoothDevice? _connectedDevice;
-  late List<BluetoothService> _services;
-  bool _connected = false;
-  bool _pressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // connected devices
-    flutterBlue.connectedDevices
-        .asStream()
-        .listen((List<BluetoothDevice> devices) {
-      for (BluetoothDevice device in devices) {
-        _addDeviceTolist(device);
-      }
-    });
-    // new devices that apear in scan
-    flutterBlue.scanResults.listen((List<ScanResult> results) {
-      for (ScanResult result in results) {
-        _addDeviceTolist(result.device);
-      }
-    });
-    flutterBlue.startScan();
-  }
-
-  _addDeviceTolist(final BluetoothDevice device) {
-    if (!devicesList.contains(device)) {
-      setState(() {
-        devicesList.add(device);
-      });
-    }
-  }
-
-  ListView _buildListViewOfDevices() {
-    List<Container> containers = [];
-    for (BluetoothDevice device in devicesList) {
-      containers.add(
-        Container(
-          //height: 50,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Text(device.name == '' ? '(unknown device)' : device.name),
-                    Text(device.id.toString()),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                  //color: Colors.blue,
-                  onPressed: () async {
-                    flutterBlue.stopScan();
-                    try {
-                      await device.connect();
-                    } catch (e) {
-                      if (e.toString() != 'already_connected') {
-                        rethrow;
-                      }
-                    } finally {
-                      _services = await device.discoverServices();
-                    }
-
-                    setState(() {
-                      _connectedDevice = device;
-                    });
-                  },
-                  child: const Text(
-                    'Connect',
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ],
-          ),
-        ),
-      );
-    }
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        ...containers,
-      ],
-    );
-  }
-
-  ListView _buildConnectDeviceView() {
-    List<Container> containers = [];
-    for (BluetoothService service in _services) {
-      List<Widget> characteristicsWidget = [];
-      for (BluetoothCharacteristic characteristic in service.characteristics) {
-        characteristic.value.listen((value) {
-          print(value);
-        });
-        characteristicsWidget.add(
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(characteristic.uuid.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    ..._buildReadWriteNotifyButton(characteristic),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                        'Value: ' + readValues[characteristic.uuid].toString()),
-                  ],
-                ),
-                const Divider(),
-              ],
-            ),
-          ),
-        );
-      }
-      containers.add(
-        Container(
-          child: ExpansionTile(
-              title: Text(service.uuid.toString()),
-              children: characteristicsWidget),
-        ),
-      );
-    }
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[...containers],
-    );
-  }
-
-  List<ButtonTheme> _buildReadWriteNotifyButton(
-      BluetoothCharacteristic characteristic) {
-    List<ButtonTheme> buttons = [];
-
-    if (characteristic.properties.read) {
-      buttons.add(
-        ButtonTheme(
-          minWidth: 10,
-          height: 20,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: ElevatedButton(
-              //color: Colors.blue,
-              child: Text('READ', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                var sub = characteristic.value.listen((value) {
-                  setState(() {
-                    readValues[characteristic.uuid] = value;
-                  });
-                });
-                await characteristic.read();
-                sub.cancel();
-              },
-            ),
-          ),
-        ),
-      );
-    }
-    if (characteristic.properties.write) {
-      buttons.add(
-        ButtonTheme(
-          minWidth: 10,
-          height: 20,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: ElevatedButton(
-              child: Text('WRITE', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Write"),
-                        content: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                controller: _writeController,
-                              ),
-                            ),
-                          ],
-                        ),
-                        actions: <Widget>[
-                          ElevatedButton(
-                            child: Text("Send"),
-                            onPressed: () {
-                              characteristic.write(
-                                  utf8.encode(_writeController.value.text));
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ElevatedButton(
-                            child: Text("Cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
-                    });
-              },
-            ),
-          ),
-        ),
-      );
-    }
-    if (characteristic.properties.notify) {
-      buttons.add(
-        ButtonTheme(
-          minWidth: 10,
-          height: 20,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: ElevatedButton(
-              child: Text('NOTIFY', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                characteristic.value.listen((value) {
-                  readValues[characteristic.uuid] = value;
-                });
-                await characteristic.setNotifyValue(true);
-              },
-            ),
-          ),
-        ),
-      );
-    }
-
-    return buttons;
-  }
-
-  ListView _buildView() {
-    if (_connectedDevice != null) {
-      return _buildConnectDeviceView();
-    }
-    return _buildListViewOfDevices();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text("Bluetooth"),
-      ),
-      body: _buildView(),
-    );
-  }
-}
- */
-
-import 'dart:async';
+/* import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:scoped_model/scoped_model.dart';
 
-import './BackgroundCollectedPage.dart';
-import './ChatPage.dart';
 import './SelectBondedDevicePage.dart';
-import 'background_collecting_task.dart';
-import 'discovered_devices.dart';
 
 // import './helpers/LineChart.dart';
 
 class BluetoothScreen extends StatefulWidget {
+  const BluetoothScreen({Key? key}) : super(key: key);
+
   @override
   _MainPage createState() => _MainPage();
 }
@@ -345,28 +66,6 @@ class _MainPage extends State<BluetoothScreen> {
     // as the app starts up
     enableBluetooth();
 
-    /* Future.doWhile(() async {
-      // Wait if adapter not enabled
-      if ((await FlutterBluetoothSerial.instance.isEnabled) ?? false) {
-        return false;
-      }
-      await Future.delayed(Duration(milliseconds: 0xDD));
-      return true;
-    }).then((_) {
-      // Update the address field
-      FlutterBluetoothSerial.instance.address.then((address) {
-        setState(() {
-          _address = address!;
-        });
-      });
-    });
-
-    FlutterBluetoothSerial.instance.name.then((name) {
-      setState(() {
-        _name = name!;
-      });
-    });
- */
     // Listen for futher state changes
     FlutterBluetoothSerial.instance
         .onStateChanged()
@@ -384,10 +83,6 @@ class _MainPage extends State<BluetoothScreen> {
 
   @override
   void dispose() {
-    /* FlutterBluetoothSerial.instance.setPairingRequestHandler(null);
-    _collectingTask?.dispose();
-    _discoverableTimeoutTimer?.cancel();
-    super.dispose(); */
     // Avoid memory leak and disconnect
     if (isConnected) {
       isDisconnecting = true;
@@ -706,7 +401,7 @@ class _MainPage extends State<BluetoothScreen> {
 
                   if (selectedDevice != null) {
                     print('Connect -> selected ' + selectedDevice.address);
-                    _startChat(context, selectedDevice);
+                    // _startChat(context, selectedDevice);
                   } else {
                     print('Connect -> no device selected');
                   }
@@ -863,7 +558,7 @@ class _MainPage extends State<BluetoothScreen> {
     return items;
   }
 
-  void _startChat(BuildContext context, BluetoothDevice server) {
+  /* void _startChat(BuildContext context, BluetoothDevice server) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
@@ -871,7 +566,7 @@ class _MainPage extends State<BluetoothScreen> {
         },
       ),
     );
-  }
+  } */
 
   // Method to send message,
   // for turning the Bluetooth device on
@@ -924,3 +619,4 @@ class _MainPage extends State<BluetoothScreen> {
     }
   } */
 }
+ */

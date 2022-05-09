@@ -86,9 +86,9 @@ class _ImageDetailScreenState extends State<ImageDetailScreen> {
           ),
           IconButton(
               onPressed: (() {
-                Navigator.of(context).push(MaterialPageRoute(
+                /* Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BluetoothScreen(),
-                ));
+                )); */
               }),
               icon: Icon(Icons.bluetooth))
         ],

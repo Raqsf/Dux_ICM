@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -160,3 +160,4 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     );
   }
 }
+ */

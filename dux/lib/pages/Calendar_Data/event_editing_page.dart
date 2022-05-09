@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dux/utils.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Event? event;
@@ -16,6 +17,7 @@ class EventEditingPage extends StatefulWidget {
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
 
@@ -32,6 +34,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void dispose() {
     titleController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -50,7 +53,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 buildTitle(),
-                SizedBox(height: 12),
+                SizedBox(height: 20),
+                buildDescription(),
+                SizedBox(height: 20),
                 buildDateTimePickers(),
               ],
             ),
@@ -78,6 +83,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
         validator: (title) =>
             title != null && title.isEmpty ? 'Title cannot be empty' : null,
         controller: titleController,
+      );
+
+  Widget buildDescription() => TextFormField(
+        style: TextStyle(fontSize: 16),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText: 'Add Description',
+        ),
+        onFieldSubmitted: (_) {},
+        validator: (description) => description != null && description.isEmpty
+            ? 'Title cannot be empty'
+            : null,
+        controller: descriptionController,
       );
 
   Widget buildDateTimePickers() => Column(
