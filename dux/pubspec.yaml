@@ -66,6 +66,8 @@ dependencies:
   string_validator: ^0.3.0
   #create splash screen
 
+  sensors_plus: ^1.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

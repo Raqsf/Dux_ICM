@@ -5,7 +5,7 @@ class ScheduleDatabaseHelper {
   static final ScheduleDatabaseHelper instance = ScheduleDatabaseHelper._init();
   ScheduleDatabaseHelper._init();
 
-  Future<Schedule> getRecord(int id) async {
+  Future<ScheduleM> getRecord(int id) async {
     final db = await DatabaseHelper.instance.database;
 
     final records = await db.query(
@@ -15,13 +15,13 @@ class ScheduleDatabaseHelper {
     );
 
     if (records.isNotEmpty) {
-      return Schedule.fromJson(records.first);
+      return ScheduleM.fromJson(records.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
 
-  Future<List<Schedule>> getAllRecords() async {
+  Future<List<ScheduleM>> getAllRecords() async {
     final db = await DatabaseHelper.instance.database;
 
     final records = await db.query(
@@ -29,10 +29,10 @@ class ScheduleDatabaseHelper {
       orderBy: '${ScheduleField.id} DESC',
     );
 
-    return records.map((e) => Schedule.fromJson(e)).toList();
+    return records.map((e) => ScheduleM.fromJson(e)).toList();
   }
 
-  Future<int> insertRecord(Schedule schedule) async {
+  Future<int> insertRecord(ScheduleM schedule) async {
     final db = await DatabaseHelper.instance.database;
 
     return await db.insert(
@@ -41,7 +41,7 @@ class ScheduleDatabaseHelper {
     );
   }
 
-  Future<int> updateRecord(Schedule schedule) async {
+  Future<int> updateRecord(ScheduleM schedule) async {
     final db = await DatabaseHelper.instance.database;
 
     return await db.update(

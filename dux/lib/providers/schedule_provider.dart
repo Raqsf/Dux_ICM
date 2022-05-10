@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../helpers/database_schedule_helper.dart';
+import '../helpers/schedule_database_helper.dart';
 import '../models/schedule_model.dart';
 
 class SchedulelProvider with ChangeNotifier {
-  List<Schedule> _items = [];
+  List<ScheduleM> _items = [];
 
-  List<Schedule> get items => [..._items];
+  List<ScheduleM> get items => [..._items];
 
   Future fetchAndSet() async {
     _items = await ScheduleDatabaseHelper.instance.getAllRecords();
     notifyListeners();
   }
 
-  Future add(Schedule label) async {
+  Future add(ScheduleM label) async {
     _items.insert(0, label);
     notifyListeners();
     await ScheduleDatabaseHelper.instance.insertRecord(label);
   }
 
-  Future update(Schedule label) async {
+  Future update(ScheduleM label) async {
     final index = _items.indexWhere((e) => e.id == label.id);
     if (index != -1) {
       _items[index] = label;
