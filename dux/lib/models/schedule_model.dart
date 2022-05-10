@@ -34,9 +34,9 @@ class ScheduleM {
         ScheduleField.hours: hours,
       };
 
-  ScheduleM copy({int? id, String? title}) => ScheduleM(
-      id: id ?? this.id,
-      subject: title ?? this.subject,
-      day: day ?? this.day,
-      hours: hours ?? this.hours);
+  // ScheduleM copy({int? id, String? title}) => ScheduleM(
+  //     id: id ?? this.id,
+  //     subject: title ?? this.subject,
+  //     day: day ?? day,
+  //     hours: hours ?? hours);
 }

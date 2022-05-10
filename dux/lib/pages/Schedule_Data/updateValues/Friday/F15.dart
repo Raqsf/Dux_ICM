@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../subject.dart';
 import '../../widget.dart';
+import '../../../../models/schedule_model.dart';
+import '../../../../providers/schedule_provider.dart';
+import 'package:provider/provider.dart';
 
 // This class handles the Page to edit the Name Section of the User Profile.
 class EditFriday_15 extends StatefulWidget {
-  const EditFriday_15({Key? key}) : super(key: key);
+  const EditFriday_15({
+    Key? key,
+    this.schedule,
+    this.defaultSchedule,
+  }) : super(key: key);
+
+  final ScheduleM? schedule;
+  final String? defaultSchedule;
 
   @override
   EditFriday_15_State createState() {
@@ -16,6 +26,9 @@ class EditFriday_15_State extends State<EditFriday_15> {
   final _formKey = GlobalKey<FormState>();
   final subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
+  late String day;
+  late String hours;
+  late String subject_name;
 
   @override
   void dispose() {
@@ -25,6 +38,7 @@ class EditFriday_15_State extends State<EditFriday_15> {
 
   void updateUserValue(String name) {
     subject.subject_F_15 = name;
+    subject_name = name;
   }
 
   @override
@@ -74,6 +88,7 @@ class EditFriday_15_State extends State<EditFriday_15> {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               updateUserValue(subjectController.text);
+                              _addLabelSchedule();
                               Navigator.pop(context);
                             }
                           },
@@ -86,5 +101,16 @@ class EditFriday_15_State extends State<EditFriday_15> {
             ],
           ),
         ));
+  }
+
+  _addLabelSchedule() {
+    final schedule = ScheduleM(
+      id: DateTime.now().millisecondsSinceEpoch,
+      subject: subject_name,
+      day: 'Friday',
+      hours: '15:00 - 16:00',
+    );
+
+    Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
   }
 }
