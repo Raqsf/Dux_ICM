@@ -5,19 +5,21 @@ class ScheduleDatabaseHelper {
   static final ScheduleDatabaseHelper instance = ScheduleDatabaseHelper._init();
   ScheduleDatabaseHelper._init();
 
-  Future<ScheduleM> getRecord(int id) async {
+  Future<String> getRecord(String day, String hours) async {
     final db = await DatabaseHelper.instance.database;
 
     final records = await db.query(
       scheduleTable,
-      where: '${ScheduleField.id} = ?',
-      whereArgs: [id],
+      where: '${ScheduleField.day} = ? ${ScheduleField.hours} = ?',
+      whereArgs: [day, hours],
     );
 
     if (records.isNotEmpty) {
-      return ScheduleM.fromJson(records.first);
+      ScheduleM temp = ScheduleM.fromJson(records.first);
+
+      return ScheduleM.getSubject(temp);
     } else {
-      throw Exception('ID $id not found');
+      throw Exception('ID $day $hours not found');
     }
   }
 

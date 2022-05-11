@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../subject.dart';
 import '../../widget.dart';
+import '../../../../models/schedule_model.dart';
+import '../../../../providers/schedule_provider.dart';
+import 'package:provider/provider.dart';
 
 // This class handles the Page to edit the Name Section of the User Profile.
 class EditTuesday_17 extends StatefulWidget {
-  const EditTuesday_17({Key? key}) : super(key: key);
+  const EditTuesday_17({
+    Key? key,
+    this.schedule,
+    this.defaultSchedule,
+  }) : super(key: key);
+
+  final ScheduleM? schedule;
+  final String? defaultSchedule;
 
   @override
   EditTuesday_17_State createState() {
@@ -16,6 +26,9 @@ class EditTuesday_17_State extends State<EditTuesday_17> {
   final _formKey = GlobalKey<FormState>();
   final subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
+  late String day;
+  late String hours;
+  late String subject_name;
 
   @override
   void dispose() {
@@ -25,6 +38,7 @@ class EditTuesday_17_State extends State<EditTuesday_17> {
 
   void updateUserValue(String name) {
     subject.subject_T_17 = name;
+    subject_name = name;
   }
 
   @override
@@ -74,6 +88,7 @@ class EditTuesday_17_State extends State<EditTuesday_17> {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               updateUserValue(subjectController.text);
+                              _addLabelSchedule();
                               Navigator.pop(context);
                             }
                           },
@@ -86,5 +101,16 @@ class EditTuesday_17_State extends State<EditTuesday_17> {
             ],
           ),
         ));
+  }
+
+  _addLabelSchedule() {
+    final schedule = ScheduleM(
+      id: DateTime.now().millisecondsSinceEpoch,
+      subject: subject_name,
+      day: 'Tuesday',
+      hours: '17:00 - 18:00',
+    );
+
+    Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
   }
 }

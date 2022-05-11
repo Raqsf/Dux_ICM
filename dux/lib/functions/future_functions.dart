@@ -8,11 +8,13 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../providers/label_provider.dart';
 import '../providers/note_provider.dart';
+import '../providers/schedule_provider.dart';
 
 Future refreshOrGetData(BuildContext context) async {
   await Provider.of<NoteProvider>(context, listen: false).fetchAndSet();
   Provider.of<LabelProvider>(context, listen: false).fetchAndSet();
   Provider.of<AnnotationProvider>(context, listen: false).fetchAndSet();
+  Provider.of<SchedulelProvider>(context, listen: false).fetchAndSet();
 }
 
 Future? openLink(String urlString) async {

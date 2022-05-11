@@ -1,3 +1,4 @@
+import 'package:dux/pages/Schedule_Data/subject.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/schedule_database_helper.dart';
@@ -5,11 +6,17 @@ import '../models/schedule_model.dart';
 
 class SchedulelProvider with ChangeNotifier {
   List<ScheduleM> _items = [];
-
+  String _subject = "";
   List<ScheduleM> get items => [..._items];
+  String get subject => _subject;
 
   Future fetchAndSet() async {
     _items = await ScheduleDatabaseHelper.instance.getAllRecords();
+    notifyListeners();
+  }
+
+  Future getItemByDayHours(String day, String hours) async {
+    _subject = await ScheduleDatabaseHelper.instance.getRecord(day, hours);
     notifyListeners();
   }
 
