@@ -15,10 +15,6 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../providers/steps_provider.dart';
 
-String formatDate(DateTime d) {
-  return d.toString().substring(0, 19);
-}
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -204,14 +200,19 @@ class _HomePageState extends State<HomePage> {
                                                 .watch<StepsProvider>()
                                                 .today !=
                                             null) */
-                                        Consumer<StepsProvider>(
-                                            builder: (context, stepsProvider,
-                                                    child) =>
-                                                stepsProvider.today != null
-                                                    ? Text(
-                                                        'DB ${stepsProvider.today?.steps}')
-                                                    : child!,
-                                            child: const Text(""))
+                                        _isLoading
+                                            ? const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              )
+                                            : Consumer<StepsProvider>(
+                                                builder: (context,
+                                                        stepsProvider, child) =>
+                                                    stepsProvider.today != null
+                                                        ? Text(
+                                                            'DB ${stepsProvider.today?.steps}')
+                                                        : child!,
+                                                child: const Text(""))
                                       ],
                                     ),
                                   ],

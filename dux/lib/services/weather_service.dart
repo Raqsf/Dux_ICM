@@ -52,7 +52,8 @@ class WeatherService {
     final response = await http.get(uri);
 
     if (response.statusCode != 200) {
-      throw Exception('error retrieving weather: ${response.statusCode}');
+      //throw Exception('error retrieving weather: ${response.statusCode}');
+      return null;
     }
 
     print(response.body);
