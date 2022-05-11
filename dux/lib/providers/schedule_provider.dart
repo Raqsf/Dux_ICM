@@ -16,8 +16,7 @@ class SchedulelProvider with ChangeNotifier {
   }
 
   Future getItemByDayHours() async {
-    _subject_M_9 = await ScheduleDatabaseHelper.instance
-        .getRecord('Monday', '9:00 - 10:00');
+    _subject_M_9 = await ScheduleDatabaseHelper.instance.getRecord(1);
     notifyListeners();
   }
 
