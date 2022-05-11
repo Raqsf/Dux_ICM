@@ -6,7 +6,7 @@ import '../models/schedule_model.dart';
 
 class SchedulelProvider with ChangeNotifier {
   List<ScheduleM> _items = [];
-  String _subject_M_9 = "";
+  String _subject_M_9 = "qwe";
   List<ScheduleM> get items => [..._items];
   String get subject_M_9 => _subject_M_9;
 
@@ -17,6 +17,7 @@ class SchedulelProvider with ChangeNotifier {
 
   Future getItemByDayHours() async {
     _subject_M_9 = await ScheduleDatabaseHelper.instance.getRecord(1);
+    debugPrint("crlh" + _subject_M_9);
     notifyListeners();
   }
 

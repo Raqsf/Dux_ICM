@@ -18,6 +18,7 @@ Future refreshOrGetData(BuildContext context) async {
   Provider.of<StepsProvider>(context, listen: false).fetchAndSet();
   Provider.of<StepsProvider>(context, listen: false).getToday();
   Provider.of<SchedulelProvider>(context, listen: false).fetchAndSet();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemByDayHours();
 }
 
 Future? openLink(String urlString) async {

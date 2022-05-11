@@ -71,7 +71,7 @@ class DatabaseHelper {
 
         await db.execute('''
             CREATE TABLE $scheduleTable (
-              ${ScheduleField.id} INTEGER PRIMARY KEY AUTOINCREMENT,
+              ${ScheduleField.id} INTEGER PRIMARY KEY,
               ${ScheduleField.subject} TEXT,
               ${ScheduleField.day} TEXT,
               ${ScheduleField.hours} TEXT

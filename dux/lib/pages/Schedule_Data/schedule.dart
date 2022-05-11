@@ -83,6 +83,7 @@ class _SchedulePageState extends State<Schedule> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshOrGetData(context);
+    setState(() {});
 
     if (_isLoading == true) {
       Future.wait([
@@ -110,7 +111,7 @@ class _SchedulePageState extends State<Schedule> {
                 builder: (context, scheduleProvider, child) =>
                     scheduleProvider.items.isNotEmpty
                         ? buildUserInfoDisplay(
-                            scheduleProvider.subject_M_9,
+                            scheduleProvider.getSubject(),
                             '  Monday 9:00h-10:00h',
                             EditMonday_9(),
                           )
@@ -234,50 +235,52 @@ class _SchedulePageState extends State<Schedule> {
   }
 
   // Widget builds the display item with the proper formatting to display the user's info
-  Widget buildUserInfoDisplay(String getValue, String title, Widget editPage) =>
-      Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.grey,
-                ),
+  Widget buildUserInfoDisplay(String getValue, String title, Widget editPage) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: Colors.grey,
               ),
-              SizedBox(
-                height: 1,
-              ),
-              Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey,
-                            width: 1,
-                          ),
-                          left: BorderSide(
-                            color: Color.fromARGB(62, 158, 158, 158),
-                            width: 1,
+            ),
+            SizedBox(
+              height: 1,
+            ),
+            Container(
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        left: BorderSide(
+                          color: Color.fromARGB(62, 158, 158, 158),
+                          width: 1,
+                        ))),
+                child: Row(children: [
+                  Expanded(
+                      child: TextButton(
+                          onPressed: () {
+                            refreshOrGetData(context);
+                            navigateSecondPage(editPage);
+                          },
+                          child: Text(
+                            getValue,
+                            style: TextStyle(
+                                fontSize: 16, height: 1.4, color: Colors.red),
                           ))),
-                  child: Row(children: [
-                    Expanded(
-                        child: TextButton(
-                            onPressed: () {
-                              navigateSecondPage(editPage);
-                            },
-                            child: Text(
-                              getValue,
-                              style: TextStyle(
-                                  fontSize: 16, height: 1.4, color: Colors.red),
-                            ))),
-                  ]))
-            ],
-          ));
+                ]))
+          ],
+        ));
+  }
 
   // Refrshes the Page after updating user info.
   FutureOr onGoBack(dynamic value) {

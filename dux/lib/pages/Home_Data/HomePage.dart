@@ -200,19 +200,14 @@ class _HomePageState extends State<HomePage> {
                                                 .watch<StepsProvider>()
                                                 .today !=
                                             null) */
-                                        _isLoading
-                                            ? const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              )
-                                            : Consumer<StepsProvider>(
-                                                builder: (context,
-                                                        stepsProvider, child) =>
-                                                    stepsProvider.today != null
-                                                        ? Text(
-                                                            'DB ${stepsProvider.today?.steps}')
-                                                        : child!,
-                                                child: const Text(""))
+                                        Consumer<StepsProvider>(
+                                            builder: (context, stepsProvider,
+                                                    child) =>
+                                                stepsProvider.today != null
+                                                    ? Text(
+                                                        'DB ${stepsProvider.today?.steps}')
+                                                    : child!,
+                                            child: const Text(""))
                                       ],
                                     ),
                                   ],
