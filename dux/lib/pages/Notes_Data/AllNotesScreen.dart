@@ -36,8 +36,6 @@ class _AllNotesScreenState extends State<AllNotesScreen> {
 
     if (_isLoading == true) {
       Future.wait([
-        /* _loadViewMode(),
-        Provider.of<LocaleProvider>(context, listen: false).fetchLocale(), */
         refreshOrGetData(context),
       ]).whenComplete(() {
         setState(() {
@@ -46,14 +44,6 @@ class _AllNotesScreenState extends State<AllNotesScreen> {
       });
     }
   }
-
-  /* Future _loadViewMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('view-mode')) return;
-    setState(() {
-      _viewMode = prefs.getString('view-mode') ?? ViewMode.staggeredGrid.name;
-    });
-  } */
 
   @override
   Widget build(BuildContext context) {

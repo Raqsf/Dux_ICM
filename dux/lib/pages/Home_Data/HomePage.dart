@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:async';
 import 'dart:math';
 
 import 'package:dux/models/weather_models.dart';
@@ -201,15 +200,18 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           'Steps taken: ${steps.toString()}',
                                         ),
-                                        if (context
+                                        /* if (context
                                                 .watch<StepsProvider>()
                                                 .today !=
-                                            null)
-                                          Consumer<StepsProvider>(
-                                              builder: (context, stepsProvider,
-                                                      child) =>
-                                                  Text(
-                                                      'DB ${stepsProvider.today?.steps}'))
+                                            null) */
+                                        Consumer<StepsProvider>(
+                                            builder: (context, stepsProvider,
+                                                    child) =>
+                                                stepsProvider.today != null
+                                                    ? Text(
+                                                        'DB ${stepsProvider.today?.steps}')
+                                                    : child!,
+                                            child: const Text(""))
                                       ],
                                     ),
                                   ],

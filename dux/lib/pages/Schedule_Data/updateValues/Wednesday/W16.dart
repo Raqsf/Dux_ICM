@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../subject.dart';
 import '../../widget.dart';
+import '../../../../models/schedule_model.dart';
+import '../../../../providers/schedule_provider.dart';
+import 'package:provider/provider.dart';
 
 // This class handles the Page to edit the Name Section of the User Profile.
 class EditWednesday_16 extends StatefulWidget {
-  const EditWednesday_16({Key? key}) : super(key: key);
+  const EditWednesday_16({
+    Key? key,
+    this.schedule,
+    this.defaultSchedule,
+  }) : super(key: key);
+
+  final ScheduleM? schedule;
+  final String? defaultSchedule;
 
   @override
   EditWednesday_16_State createState() {
@@ -16,6 +26,9 @@ class EditWednesday_16_State extends State<EditWednesday_16> {
   final _formKey = GlobalKey<FormState>();
   final subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
+  late String day;
+  late String hours;
+  late String subject_name;
 
   @override
   void dispose() {
@@ -25,6 +38,7 @@ class EditWednesday_16_State extends State<EditWednesday_16> {
 
   void updateUserValue(String name) {
     subject.subject_W_16 = name;
+    subject_name = name;
   }
 
   @override
@@ -74,6 +88,7 @@ class EditWednesday_16_State extends State<EditWednesday_16> {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               updateUserValue(subjectController.text);
+                              _addLabelSchedule();
                               Navigator.pop(context);
                             }
                           },
@@ -86,5 +101,16 @@ class EditWednesday_16_State extends State<EditWednesday_16> {
             ],
           ),
         ));
+  }
+
+  _addLabelSchedule() {
+    final schedule = ScheduleM(
+      id: DateTime.now().millisecondsSinceEpoch,
+      subject: subject_name,
+      day: 'Wednesday',
+      hours: '16:00 - 17:00',
+    );
+
+    Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
   }
 }

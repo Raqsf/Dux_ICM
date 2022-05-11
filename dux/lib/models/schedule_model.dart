@@ -26,6 +26,9 @@ class ScheduleM {
         day: json[ScheduleField.day].toString(),
         hours: json[ScheduleField.hours].toString(),
       );
+  static String getSubject(ScheduleM label) {
+    return label.subject;
+  }
 
   Map<String, Object?> toJson() => {
         ScheduleField.id: id,
