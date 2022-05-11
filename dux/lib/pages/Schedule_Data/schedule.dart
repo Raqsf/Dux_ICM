@@ -110,11 +110,13 @@ class _SchedulePageState extends State<Schedule> {
                 builder: (context, scheduleProvider, child) =>
                     scheduleProvider.items.isNotEmpty
                         ? buildUserInfoDisplay(
-                            scheduleProvider.subject,
+                            scheduleProvider.subject_M_9,
                             '  Monday 9:00h-10:00h',
                             EditMonday_9(),
                           )
                         : child!,
+                child: buildUserInfoDisplay(subject.subject_M_9,
+                    '  Monday 9:00h-10:00h', EditMonday_9()),
 
                 //buildUserInfoDisplay(scheduleProvider.getItemByDayHours('Monday', '8:00 - 9:00'), '  Monday 8:00h-9:00h',EditMonday_8()),
                 // buildUserInfoDisplay(

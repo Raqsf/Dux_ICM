@@ -6,17 +6,18 @@ import '../models/schedule_model.dart';
 
 class SchedulelProvider with ChangeNotifier {
   List<ScheduleM> _items = [];
-  String _subject = "";
+  String _subject_M_9 = "";
   List<ScheduleM> get items => [..._items];
-  String get subject => _subject;
+  String get subject_M_9 => _subject_M_9;
 
   Future fetchAndSet() async {
     _items = await ScheduleDatabaseHelper.instance.getAllRecords();
     notifyListeners();
   }
 
-  Future getItemByDayHours(String day, String hours) async {
-    _subject = await ScheduleDatabaseHelper.instance.getRecord(day, hours);
+  Future getItemByDayHours() async {
+    _subject_M_9 = await ScheduleDatabaseHelper.instance
+        .getRecord('Monday', '9:00 - 10:00');
     notifyListeners();
   }
 
