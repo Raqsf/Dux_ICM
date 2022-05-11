@@ -8,6 +8,7 @@ import '../models/label_model.dart';
 import '../models/notes_model.dart';
 import '../models/annotations_model.dart';
 import '../models/schedule_model.dart';
+import '../models/steps_model.dart';
 
 class DatabaseHelper {
   static const dbName = 'note_app.db';
@@ -74,6 +75,14 @@ class DatabaseHelper {
               ${ScheduleField.subject} TEXT,
               ${ScheduleField.day} TEXT,
               ${ScheduleField.hours} TEXT
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE $stepsTable (
+              ${StepsField.day} TEXT,
+              ${StepsField.steps} INTEGER,
+              ${StepsField.isToday} INTEGER
             )
           ''');
       },

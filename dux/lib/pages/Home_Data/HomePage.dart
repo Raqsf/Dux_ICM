@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'dart:async';
 import 'dart:math';
 
 import 'package:dux/models/weather_models.dart';
 import 'package:dux/services/weather_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/app_constants.dart';
+import '../../functions/future_functions.dart';
 import '../../models/card_model.dart';
 
 // import 'package:pedometer/pedometer.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+import '../../providers/steps_provider.dart';
 
 String formatDate(DateTime d) {
   return d.toString().substring(0, 19);
@@ -23,6 +28,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isLoading = false;
   String username = "Flávio";
   final _weatherService = WeatherService();
 
@@ -47,6 +53,27 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _search();
     super.initState();
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshOrGetData(context);
+
+    if (_isLoading == true) {
+      Future.wait([
+        /* _loadViewMode(),
+        Provider.of<LocaleProvider>(context, listen: false).fetchLocale(), */
+        refreshOrGetData(context),
+      ]).whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
   }
 
   double getValue(double x, double y, double z) {
@@ -82,6 +109,8 @@ class _HomePageState extends State<HomePage> {
                 distance = getValue(x, y, z);
                 if (distance > 6) {
                   steps++;
+                  Provider.of<StepsProvider>(context, listen: false)
+                      .updateSteps();
                 }
               }
               /* calories = calculateCalories(steps);
@@ -172,6 +201,15 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           'Steps taken: ${steps.toString()}',
                                         ),
+                                        if (context
+                                                .watch<StepsProvider>()
+                                                .today !=
+                                            null)
+                                          Consumer<StepsProvider>(
+                                              builder: (context, stepsProvider,
+                                                      child) =>
+                                                  Text(
+                                                      'DB ${stepsProvider.today?.steps}'))
                                       ],
                                     ),
                                   ],

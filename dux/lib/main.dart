@@ -5,6 +5,7 @@ import 'package:dux/providers/schedule_provider.dart';
 import 'package:dux/providers/annotation_provider.dart';
 import 'package:dux/providers/label_provider.dart';
 import 'package:dux/providers/note_provider.dart';
+import 'package:dux/providers/steps_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dux/pages/NoteType.dart';
 import 'package:dux/pages/Profile_Data/ProfilePage.dart';
@@ -17,7 +18,8 @@ void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => NoteProvider()),
       ChangeNotifierProvider(create: (_) => LabelProvider()),
       ChangeNotifierProvider(create: (_) => AnnotationProvider()),
-      ChangeNotifierProvider(create: (_) => SchedulelProvider())
+      ChangeNotifierProvider(create: (_) => SchedulelProvider()),
+      ChangeNotifierProvider(create: (_) => StepsProvider())
     ], child: const MyApp()));
 
 class MyApp extends StatelessWidget {
