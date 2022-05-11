@@ -1,3 +1,4 @@
+import 'package:dux/functions/future_functions.dart';
 import 'package:flutter/material.dart';
 import '../../subject.dart';
 import '../../widget.dart';
@@ -112,5 +113,6 @@ class EditMonday_9_State extends State<EditMonday_9> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).update(schedule);
+    refreshOrGetData(context);
   }
 }

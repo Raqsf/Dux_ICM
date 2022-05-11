@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                   steps++;
                   Provider.of<StepsProvider>(context, listen: false)
                       .updateSteps();
+                  refreshOrGetData(context);
                 }
               }
               /* calories = calculateCalories(steps);
@@ -200,14 +201,19 @@ class _HomePageState extends State<HomePage> {
                                                 .watch<StepsProvider>()
                                                 .today !=
                                             null) */
-                                        Consumer<StepsProvider>(
-                                            builder: (context, stepsProvider,
-                                                    child) =>
-                                                stepsProvider.today != null
-                                                    ? Text(
-                                                        'DB ${stepsProvider.today?.steps}')
-                                                    : child!,
-                                            child: const Text(""))
+                                        RefreshIndicator(
+                                            onRefresh: () => context
+                                                .read<StepsProvider>()
+                                                .getToday(),
+                                            child: Consumer<StepsProvider>(
+                                                builder: (context,
+                                                        stepsProvider, child) =>
+                                                    stepsProvider.today != null
+                                                        ? Text(
+                                                            '${context.watch<StepsProvider>().today?.steps}') /* Text(
+                                                            'DB ${stepsProvider.today?.steps}') */
+                                                        : child!,
+                                                child: const Text("")))
                                       ],
                                     ),
                                   ],

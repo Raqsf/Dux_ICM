@@ -10,11 +10,11 @@ class StepsProvider with ChangeNotifier {
   List<Steps> get items => [..._items];
   Steps? get today => _today;
 
-  Future fetchAndSet() async {
+  /* Future fetchAndSet() async {
     _items = await StepsDatabaseHelper.instance.getAllRecords();
     notifyListeners();
   }
-
+ */
   Future getToday() async {
     _today = await StepsDatabaseHelper.instance.getToday();
     notifyListeners();
@@ -28,6 +28,8 @@ class StepsProvider with ChangeNotifier {
 
   Future updateSteps() async {
     await StepsDatabaseHelper.instance.updateSteps();
+    /* _today = await StepsDatabaseHelper.instance.getToday();
+    notifyListeners(); */
   }
 
   Future update(Steps steps) async {
