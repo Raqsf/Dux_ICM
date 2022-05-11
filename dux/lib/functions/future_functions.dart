@@ -18,7 +18,61 @@ Future refreshOrGetData(BuildContext context) async {
   // Provider.of<StepsProvider>(context, listen: false).fetchAndSet();
   Provider.of<StepsProvider>(context, listen: false).getToday();
   Provider.of<SchedulelProvider>(context, listen: false).fetchAndSet();
-  Provider.of<SchedulelProvider>(context, listen: false).getItemByDayHours();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday8();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday9();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday10();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday11();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday12();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday13();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday14();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday15();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday16();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday17();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemMonday18();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday8();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday9();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday10();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday11();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday12();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday13();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday14();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday15();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday16();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday17();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemTuesday18();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday8();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday9();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday10();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday11();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday12();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday13();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday14();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday15();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday16();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday17();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemWednesday18();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday8();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday9();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday10();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday11();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday12();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday13();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday14();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday15();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday16();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday17();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemThursday18();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday8();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday9();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday10();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday11();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday12();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday13();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday14();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday15();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday16();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday17();
+  Provider.of<SchedulelProvider>(context, listen: false).getItemFriday18();
 }
 
 Future? openLink(String urlString) async {
@@ -32,7 +86,6 @@ Future? openLink(String urlString) async {
 /* Future<String> getViewMode() async {
   final prefs = await SharedPreferences.getInstance();
   if (!prefs.containsKey('view-mode')) return ViewMode.staggeredGrid.name;
-
   return prefs.getString('view-mode') ?? ViewMode.staggeredGrid.name;
 } */
 

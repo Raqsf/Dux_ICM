@@ -112,7 +112,7 @@ class EditMonday_9_State extends State<EditMonday_9> {
       hours: '9:00 - 10:00',
     );
 
-    Provider.of<SchedulelProvider>(context, listen: false).update(schedule);
+    Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
     refreshOrGetData(context);
   }
 }

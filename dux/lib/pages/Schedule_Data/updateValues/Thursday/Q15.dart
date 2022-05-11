@@ -105,7 +105,7 @@ class EditThursday_15_State extends State<EditThursday_15> {
 
   _addLabelSchedule() {
     final schedule = ScheduleM(
-      id: DateTime.now().millisecondsSinceEpoch,
+      id: 40,
       subject: subject_name,
       day: 'Thursday',
       hours: '15:00 - 16:00',
