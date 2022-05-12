@@ -37,18 +37,24 @@ class StepsDatabaseHelper {
 
       Steps today = Steps.fromJson(records.first);
 
-      if (today.day == dateFormat) {
+      if (today.day == day(dateFormat)) {
         return Steps.fromJson(records.first);
       } else {
         // isToday tem q ficar false
         // dia de hoje tem de ficar true
         updateToday();
-        return Steps.fromJson(records.first);
+        final newToday = await db.query(
+          stepsTable,
+          where: '${StepsField.isToday} = ?',
+          whereArgs: [1],
+        );
+        return Steps.fromJson(newToday.first);
       }
     } else {
       DateTime date = DateTime.now();
       String dateFormat = DateFormat('EEEE').format(date);
-      Steps s = Steps(day: dateFormat, steps: 0, isToday: 1);
+      Steps s = Steps(day: day(dateFormat), steps: 0, isToday: 1);
+      print("get Today, no today");
       insertRecord(s);
       return s;
       //throw Exception('Today not found');
@@ -60,7 +66,7 @@ class StepsDatabaseHelper {
 
     final records = await db.query(
       stepsTable,
-      orderBy: '${StepsField.day} DESC',
+      orderBy: '${StepsField.day} ASC',
     );
 
     return records.map((e) => Steps.fromJson(e)).toList();
@@ -69,23 +75,21 @@ class StepsDatabaseHelper {
   Future<int> insertRecord(Steps steps) async {
     final db = await DatabaseHelper.instance.database;
 
-    return await db.insert(
-      stepsTable,
-      steps.toJson(),
-    );
+    try {
+      return await db.insert(
+        stepsTable,
+        steps.toJson(),
+      );
+    } on Exception {
+      return updateRecord(steps);
+    }
   }
 
   Future<int> updateSteps() async {
     print("HERE");
     final db = await DatabaseHelper.instance.database;
+    Steps today = await getToday();
 
-    final records = await db.query(
-      stepsTable,
-      where: '${StepsField.isToday} = ?',
-      whereArgs: [1],
-    );
-
-    Steps today = Steps.fromJson(records.first);
     int steps = today.steps;
     steps++;
 
@@ -98,12 +102,14 @@ class StepsDatabaseHelper {
     print(steps);
     print(newToday);
 
-    return await db.update(
+    return updateRecord(Steps.fromJson(newToday));
+
+    /* return await db.update(
       stepsTable,
       newToday,
       where: '${StepsField.isToday} = ?',
       whereArgs: [1],
-    );
+    ); */
   }
 
   Future<int> updateRecord(Steps steps) async {
@@ -127,7 +133,7 @@ class StepsDatabaseHelper {
     );
 
     Steps today = Steps.fromJson(records.first);
-    Map<String, Object?> newToday = {
+    Map<String, Object?> notToday = {
       'day': today.day,
       'steps': today.steps,
       'isToday': 0
@@ -135,7 +141,7 @@ class StepsDatabaseHelper {
 
     await db.update(
       stepsTable,
-      newToday,
+      notToday,
       where: '${StepsField.isToday} = ?',
       whereArgs: [1],
     );
@@ -146,18 +152,25 @@ class StepsDatabaseHelper {
     final recordsToday = await db.query(
       stepsTable,
       where: '${StepsField.day} = ?',
-      whereArgs: [dateFormat],
+      whereArgs: [day(dateFormat)],
     );
 
-    today = Steps.fromJson(recordsToday.first);
-    newToday = {'day': today.day, 'steps': today.steps, 'isToday': 1};
+    if (recordsToday.isNotEmpty) {
+      /* today = Steps.fromJson(recordsToday.first);
+      notToday = {'day': today.day, 'steps': today.steps, 'isToday': 1}; */
+      notToday = {'day': day(dateFormat), 'steps': 0, 'isToday': 1};
 
-    return await db.update(
-      stepsTable,
-      newToday,
-      where: '${StepsField.day} = ?',
-      whereArgs: [dateFormat],
-    );
+      return await db.update(
+        stepsTable,
+        notToday,
+        where: '${StepsField.day} = ?',
+        whereArgs: [day(dateFormat)],
+      );
+    } else {
+      today = Steps(day: day(dateFormat), steps: 0, isToday: 1);
+      print("update Today, no today");
+      return insertRecord(today);
+    }
   }
 
   Future<int> deleteRecord(String day) async {
@@ -175,4 +188,31 @@ class StepsDatabaseHelper {
 
     return await db.delete(stepsTable);
   }
+}
+
+int day(String day) {
+  int d = 0;
+  switch (day) {
+    case ("Monday"):
+      break;
+    case ("Tuesday"):
+      d = 1;
+      break;
+    case ("Wednesday"):
+      d = 2;
+      break;
+    case ("Thursday"):
+      d = 3;
+      break;
+    case ("Friday"):
+      d = 4;
+      break;
+    case ("Saturday"):
+      d = 5;
+      break;
+    case ("Sunday"):
+      d = 6;
+      break;
+  }
+  return d;
 }

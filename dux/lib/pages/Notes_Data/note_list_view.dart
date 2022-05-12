@@ -21,18 +21,7 @@ class NoteListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return /* (viewMode == ViewMode.staggeredGrid.name)
-        ? MasonryGridView.count(
-            crossAxisCount: 2,
-            //padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-            // itemCount: notes.length,
-            /* staggeredTileBuilder: (index) {
-              return const StaggeredGridTile.fit(1);
-            }, */
-            itemBuilder: (context, index) => _noteItem(context, index),
-          )
-        :  */
-        ListView.builder(
+    return ListView.builder(
       itemCount: notes.length,
       padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
       itemBuilder: (context, index) => _noteItem(context, index),

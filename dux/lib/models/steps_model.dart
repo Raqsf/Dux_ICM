@@ -7,7 +7,7 @@ class StepsField {
 }
 
 class Steps {
-  final String day;
+  final int day;
   final int steps;
   final int isToday;
 
@@ -18,7 +18,7 @@ class Steps {
   });
 
   static Steps fromJson(Map<String, Object?> json) => Steps(
-      day: json[StepsField.day].toString(),
+      day: json[StepsField.day] as int,
       steps: json[StepsField.steps] as int,
       isToday: json[StepsField.isToday] as int);
 
@@ -28,7 +28,7 @@ class Steps {
         StepsField.isToday: isToday,
       };
 
-  Steps copy({String? day, int? steps, int? isToday}) => Steps(
+  Steps copy({int? day, int? steps, int? isToday}) => Steps(
       day: day ?? this.day,
       steps: steps ?? this.steps,
       isToday: isToday ?? this.isToday);

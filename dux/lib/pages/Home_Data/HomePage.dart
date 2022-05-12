@@ -60,8 +60,6 @@ class _HomePageState extends State<HomePage> {
 
     if (_isLoading == true) {
       Future.wait([
-        /* _loadViewMode(),
-        Provider.of<LocaleProvider>(context, listen: false).fetchLocale(), */
         refreshOrGetData(context),
       ]).whenComplete(() {
         setState(() {
@@ -109,9 +107,6 @@ class _HomePageState extends State<HomePage> {
                   refreshOrGetData(context);
                 }
               }
-              /* calories = calculateCalories(steps);
-            duration = calculateDuration(steps);
-            miles = calculateMiles(steps); */
               return ListView(
                 physics: const ClampingScrollPhysics(),
                 children: [
@@ -194,26 +189,19 @@ class _HomePageState extends State<HomePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Text(
-                                          'Steps taken: ${steps.toString()}',
-                                        ),
-                                        /* if (context
-                                                .watch<StepsProvider>()
-                                                .today !=
-                                            null) */
-                                        RefreshIndicator(
-                                            onRefresh: () => context
-                                                .read<StepsProvider>()
-                                                .getToday(),
-                                            child: Consumer<StepsProvider>(
-                                                builder: (context,
-                                                        stepsProvider, child) =>
-                                                    stepsProvider.today != null
-                                                        ? Text(
-                                                            '${context.watch<StepsProvider>().today?.steps}') /* Text(
+                                        Consumer<StepsProvider>(
+                                            builder: (context, stepsProvider,
+                                                    child) =>
+                                                stepsProvider.today != null
+                                                    ? Row(children: [
+                                                        const Icon(Icons
+                                                            .directions_walk),
+                                                        Text(
+                                                            '${context.watch<StepsProvider>().today?.steps}')
+                                                      ]) /* Text(
                                                             'DB ${stepsProvider.today?.steps}') */
-                                                        : child!,
-                                                child: const Text("")))
+                                                    : child!,
+                                            child: const Text(""))
                                       ],
                                     ),
                                   ],
