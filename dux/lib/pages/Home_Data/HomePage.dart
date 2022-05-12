@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dux/models/weather_models.dart';
+import 'package:dux/providers/schedule_provider.dart';
 import 'package:dux/services/weather_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,10 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/app_constants.dart';
 import '../../functions/future_functions.dart';
 import '../../models/card_model.dart';
+import 'package:intl/intl.dart';
 
 // import 'package:pedometer/pedometer.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
+import '../../models/schedule_model.dart';
 import '../../providers/steps_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -272,119 +275,196 @@ class Today extends StatefulWidget {
 
 class _TodayState extends State<Today> {
   var rng = Random().nextInt(100);
+  List<ScheduleM> allClasses = [];
+  List<ScheduleM> todayClasses = [];
 
   @override
   Widget build(BuildContext context) {
+    void getClasses() {
+      int day = getDay();
+      todayClasses = [];
+      switch (day) {
+        case 0:
+          for (int i = 0; i < allClasses.length; i++) {
+            if (allClasses[i].day.toLowerCase() == "monday") {
+              todayClasses.add(allClasses[i]);
+            }
+          }
+          break;
+        case 1:
+          for (int i = 0; i < allClasses.length; i++) {
+            if (allClasses[i].day.toLowerCase() == "tuesday") {
+              todayClasses.add(allClasses[i]);
+            }
+          }
+          break;
+        case 2:
+          for (int i = 0; i < allClasses.length; i++) {
+            if (allClasses[i].day.toLowerCase() == "wednesday") {
+              todayClasses.add(allClasses[i]);
+            }
+          }
+          break;
+        case 3:
+          for (int i = 0; i < allClasses.length; i++) {
+            if (allClasses[i].day.toLowerCase() == "thursday") {
+              todayClasses.add(allClasses[i]);
+            }
+          }
+          break;
+        case 4:
+          for (int i = 0; i < allClasses.length; i++) {
+            if (allClasses[i].day.toLowerCase() == "friday") {
+              todayClasses.add(allClasses[i]);
+            }
+          }
+          break;
+        default:
+      }
+    }
+
     return SizedBox(
-      height: 170,
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemCount: cards.length,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: const EdgeInsets.only(right: 10),
-              height: 170,
-              width: 200,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  color: ColorsConstant.homeColors[
-                      (index + rng) % ColorsConstant.homeColors.length][0]),
-              child: Stack(
-                children: [
-                  // DECORATION
-                  Positioned(
-                      top: 13,
-                      left: 13,
-                      child: Icon(
-                        Icons.circle,
-                        color: ColorsConstant.homeColors[(index + rng) %
-                            ColorsConstant.homeColors.length][1],
-                        size: 5,
-                      )),
-                  Positioned(
-                      top: 5,
-                      left: 20,
-                      child: Icon(
-                        Icons.circle,
-                        color: ColorsConstant.homeColors[(index + rng) %
-                            ColorsConstant.homeColors.length][1],
-                        size: 10,
-                      )),
-                  Positioned(
-                      bottom: 90,
-                      right: 10,
-                      child: Icon(
-                        Icons.circle,
-                        color: ColorsConstant.homeColors[(index + rng) %
-                            ColorsConstant.homeColors.length][1],
-                        size: 10,
-                      )),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Icon(
-                        Icons.circle,
-                        color: ColorsConstant.homeColors[(index + rng) %
-                            ColorsConstant.homeColors.length][1],
-                        size: 100,
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Class Name
-                          Text(
-                            widget.isClass
-                                ? cards[index].title
-                                : cardsEvent[index].title,
-                            style: const TextStyle(
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: Column(
-                              children: [
-                                // Time
-                                Row(
+        height: 170,
+        child: Consumer<SchedulelProvider>(
+            builder: (context, scheduleProvider, child) {
+          allClasses = scheduleProvider.items;
+          getClasses();
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.isClass ? todayClasses.length : cardsEvent.length,
+            itemBuilder: (context, index) {
+              return Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  height: 170,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      color: ColorsConstant.homeColors[
+                          (index + rng) % ColorsConstant.homeColors.length][0]),
+                  child: Stack(
+                    children: [
+                      // DECORATION
+                      Positioned(
+                          top: 13,
+                          left: 13,
+                          child: Icon(
+                            Icons.circle,
+                            color: ColorsConstant.homeColors[(index + rng) %
+                                ColorsConstant.homeColors.length][1],
+                            size: 5,
+                          )),
+                      Positioned(
+                          top: 5,
+                          left: 20,
+                          child: Icon(
+                            Icons.circle,
+                            color: ColorsConstant.homeColors[(index + rng) %
+                                ColorsConstant.homeColors.length][1],
+                            size: 10,
+                          )),
+                      Positioned(
+                          bottom: 90,
+                          right: 10,
+                          child: Icon(
+                            Icons.circle,
+                            color: ColorsConstant.homeColors[(index + rng) %
+                                ColorsConstant.homeColors.length][1],
+                            size: 10,
+                          )),
+                      Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Icon(
+                            Icons.circle,
+                            color: ColorsConstant.homeColors[(index + rng) %
+                                ColorsConstant.homeColors.length][1],
+                            size: 100,
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Class Name
+                              Text(
+                                widget.isClass
+                                    ? todayClasses[index].subject
+                                    : cardsEvent[index].title,
+                                style: const TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Column(
                                   children: [
-                                    const Icon(Icons.watch_later_outlined,
-                                        color: Colors.white, size: 15),
-                                    const Padding(
-                                        padding: EdgeInsets.only(right: 5)),
-                                    Text(
-                                        '${widget.isClass ? cards[index].startTime : cardsEvent[index].startTime} - ${widget.isClass ? cards[index].endTime : cardsEvent[index].endTime}',
-                                        style: const TextStyle(
-                                            color: Colors.white)),
+                                    // Time
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.watch_later_outlined,
+                                            color: Colors.white, size: 15),
+                                        const Padding(
+                                            padding: EdgeInsets.only(right: 5)),
+                                        Text(
+                                            '${widget.isClass ? todayClasses[index].hours : cardsEvent[index].startTime}',
+                                            style: const TextStyle(
+                                                color: Colors.white)),
+                                      ],
+                                    ),
+                                    // Place
+                                    if (!widget.isClass)
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.place_outlined,
+                                              color: Colors.white, size: 15),
+                                          const Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 5)),
+                                          Text(cardsEvent[index].place,
+                                              style: const TextStyle(
+                                                  color: Colors.white)),
+                                        ],
+                                      ),
                                   ],
                                 ),
-                                // Place
-                                Row(
-                                  children: [
-                                    const Icon(Icons.place_outlined,
-                                        color: Colors.white, size: 15),
-                                    const Padding(
-                                        padding: EdgeInsets.only(right: 5)),
-                                    Text(
-                                        widget.isClass
-                                            ? 'Room ${cards[index].place}'
-                                            : cardsEvent[index].place,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ))
-                ],
-              ));
-        },
-      ),
-    );
+                              ),
+                            ],
+                          ))
+                    ],
+                  ));
+            },
+          );
+        }));
   }
+}
+
+int getDay() {
+  DateTime date = DateTime.now();
+  String dateFormat = DateFormat('EEEE').format(date);
+  int d = 0;
+  switch (dateFormat) {
+    case ("Monday"):
+      break;
+    case ("Tuesday"):
+      d = 1;
+      break;
+    case ("Wednesday"):
+      d = 2;
+      break;
+    case ("Thursday"):
+      d = 3;
+      break;
+    case ("Friday"):
+      d = 4;
+      break;
+    case ("Saturday"):
+      d = 5;
+      break;
+    case ("Sunday"):
+      d = 6;
+      break;
+  }
+  return d;
 }
