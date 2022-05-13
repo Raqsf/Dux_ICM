@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dux/utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import './Map_Data/map_screen.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Event? event;
@@ -57,10 +58,31 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 buildDescription(),
                 SizedBox(height: 20),
                 buildDateTimePickers(),
+                SizedBox(height: 20),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.orange),
+                          ),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapScreen())),
+                          child: Icon(Icons.pin_drop_outlined))
+                    ]),
               ],
             ),
           ),
         ),
+
+        // floatingActionButton: FloatingActionButton(
+        //     onPressed: () {},
+        //     tooltip: 'Google Map',
+        //     child: Icon(Icons.pin_drop_outlined)),
       );
 
   List<Widget> buildEditingActions() => [
