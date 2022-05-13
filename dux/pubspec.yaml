@@ -67,9 +67,12 @@ dependencies:
   email_validator: ^2.0.1
   image_picker: ^0.8.4+11
   string_validator: ^0.3.0
+  google_maps_flutter: ^2.1.5
+  #google_maps_flutter_web: ^0.3.2+2
+  #create splash screen
 
   #google maps
-  google_maps_flutter: ^2.1.5
+  
 
 dev_dependencies:
   flutter_test:
