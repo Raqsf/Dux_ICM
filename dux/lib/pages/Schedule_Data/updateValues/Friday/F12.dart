@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../functions/future_functions.dart';
 import '../../subject.dart';
 import '../../widget.dart';
 import '../../widget.dart';
@@ -25,17 +26,23 @@ class EditFriday_12 extends StatefulWidget {
 
 class EditFriday_12_State extends State<EditFriday_12> {
   final _formKey = GlobalKey<FormState>();
-  final subjectController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
   late String day;
   late String hours;
   late String subject_name;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshOrGetScheduleData(context);
+  }
+
+  /* @override
   void dispose() {
     subjectController.dispose();
     super.dispose();
-  }
+  } */
 
   void updateUserValue(String name) {
     subject.subject_F_12 = name;
@@ -44,6 +51,8 @@ class EditFriday_12_State extends State<EditFriday_12> {
 
   @override
   Widget build(BuildContext context) {
+    subjectController.text =
+        Provider.of<SchedulelProvider>(context, listen: false).subject_F_12;
     return Scaffold(
         appBar: buildAppBar(context),
         body: Form(
@@ -102,7 +111,30 @@ class EditFriday_12_State extends State<EditFriday_12> {
                             style: TextStyle(fontSize: 15),
                           ),
                         ),
-                      )))
+                      ))),
+              if (subjectController.text.isNotEmpty)
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: 330,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              //if (_formKey.currentState!.validate()) {
+                              updateUserValue("");
+                              _addLabelSchedule();
+                              Navigator.pop(context);
+                              //}
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )))
             ],
           ),
         ));
@@ -117,6 +149,7 @@ class EditFriday_12_State extends State<EditFriday_12> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
+    refreshOrGetScheduleData(context);
   }
 
   _updateLabelSchedule() {

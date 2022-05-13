@@ -59,12 +59,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    refreshOrGetData(context);
+    refreshOrGetHomeData(context);
 
     if (_isLoading == true) {
-      Future.wait([
-        refreshOrGetData(context),
-      ]).whenComplete(() {
+      Future.wait([refreshOrGetHomeData(context)]).whenComplete(() {
         setState(() {
           _isLoading = false;
         });
@@ -107,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                   steps++;
                   Provider.of<StepsProvider>(context, listen: false)
                       .updateSteps();
-                  refreshOrGetData(context);
+                  refreshOrGetHomeData(context);
                 }
               }
               return ListView(
@@ -286,35 +284,40 @@ class _TodayState extends State<Today> {
       switch (day) {
         case 0:
           for (int i = 0; i < allClasses.length; i++) {
-            if (allClasses[i].day.toLowerCase() == "monday") {
+            if (allClasses[i].day.toLowerCase() == "monday" &&
+                allClasses[i].subject != "") {
               todayClasses.add(allClasses[i]);
             }
           }
           break;
         case 1:
           for (int i = 0; i < allClasses.length; i++) {
-            if (allClasses[i].day.toLowerCase() == "tuesday") {
+            if (allClasses[i].day.toLowerCase() == "tuesday" &&
+                allClasses[i].subject != "") {
               todayClasses.add(allClasses[i]);
             }
           }
           break;
         case 2:
           for (int i = 0; i < allClasses.length; i++) {
-            if (allClasses[i].day.toLowerCase() == "wednesday") {
+            if (allClasses[i].day.toLowerCase() == "wednesday" &&
+                allClasses[i].subject != "") {
               todayClasses.add(allClasses[i]);
             }
           }
           break;
         case 3:
           for (int i = 0; i < allClasses.length; i++) {
-            if (allClasses[i].day.toLowerCase() == "thursday") {
+            if (allClasses[i].day.toLowerCase() == "thursday" &&
+                allClasses[i].subject != "") {
               todayClasses.add(allClasses[i]);
             }
           }
           break;
         case 4:
           for (int i = 0; i < allClasses.length; i++) {
-            if (allClasses[i].day.toLowerCase() == "friday") {
+            if (allClasses[i].day.toLowerCase() == "friday" &&
+                allClasses[i].subject != "") {
               todayClasses.add(allClasses[i]);
             }
           }

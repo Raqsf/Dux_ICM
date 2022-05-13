@@ -41,7 +41,7 @@ class _AllNotesByLabelScreenState extends State<AllNotesByLabelScreen> {
 
     if (_isLoading == true) {
       Future.wait([
-        refreshOrGetData(context),
+        refreshOrGetAnnotationsData(context),
       ]).whenComplete(() {
         setState(() {
           _isLoading = false;
@@ -62,7 +62,7 @@ class _AllNotesByLabelScreenState extends State<AllNotesByLabelScreen> {
           style: TextStyleConstants.titleAppBarStyle,
         ),
         actions: [
-          if (context
+          /* if (context
               .watch<NoteProvider>()
               .itemsByLabel(widget.label.title)
               .isNotEmpty)
@@ -77,7 +77,7 @@ class _AllNotesByLabelScreenState extends State<AllNotesByLabelScreen> {
                 );
               },
               icon: const Icon(Icons.search),
-            ),
+            ), */
           const SizedBox(
             width: 6,
           )
@@ -89,7 +89,7 @@ class _AllNotesByLabelScreenState extends State<AllNotesByLabelScreen> {
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: () => refreshOrGetData(context),
+              onRefresh: () => refreshOrGetAnnotationsData(context),
               child: Consumer<NoteProvider>(
                 builder: (context, noteProvider, child) => noteProvider
                         .itemsByLabel(widget.label.title)

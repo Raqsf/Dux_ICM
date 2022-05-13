@@ -42,7 +42,7 @@ class _AllAnnotationsByLabelScreenState
 
     if (_isLoading == true) {
       Future.wait([
-        refreshOrGetData(context),
+        refreshOrGetAnnotationsData(context),
       ]).whenComplete(() {
         setState(() {
           _isLoading = false;
@@ -90,7 +90,7 @@ class _AllAnnotationsByLabelScreenState
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: () => refreshOrGetData(context),
+              onRefresh: () => refreshOrGetAnnotationsData(context),
               child: Consumer<AnnotationProvider>(
                 builder: (context, noteProvider, child) => noteProvider
                         .itemsByLabel(widget.label.title)

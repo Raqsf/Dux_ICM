@@ -1,5 +1,6 @@
 import 'package:dux/pages/Schedule_Data/schedule.dart';
 import 'package:flutter/material.dart';
+import '../../../../functions/future_functions.dart';
 import '../../subject.dart';
 import '../../widget.dart';
 import '../../../../models/schedule_model.dart';
@@ -25,17 +26,23 @@ class EditFriday_8 extends StatefulWidget {
 
 class EditFriday_8_State extends State<EditFriday_8> {
   final _formKey = GlobalKey<FormState>();
-  final subjectController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
   late String day;
   late String hours;
   late String subject_name;
 
   @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    refreshOrGetScheduleData(context);
+  }
+
+  /* @override
   void dispose() {
     subjectController.dispose();
     super.dispose();
-  }
+  } */
 
   void updateUserValue(String name) {
     subject.subject_F_8 = name;
@@ -44,6 +51,8 @@ class EditFriday_8_State extends State<EditFriday_8> {
 
   @override
   Widget build(BuildContext context) {
+    subjectController.text =
+        Provider.of<SchedulelProvider>(context, listen: false).subject_F_8;
     return Scaffold(
         appBar: buildAppBar(context),
         body: Form(
@@ -64,17 +73,20 @@ class EditFriday_8_State extends State<EditFriday_8> {
                       child: SizedBox(
                           height: 100,
                           width: 150,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter subject name';
-                              }
-                              return null;
-                            },
-                            decoration:
-                                InputDecoration(labelText: 'Subject Name'),
-                            controller: subjectController,
-                          ))),
+                          child: Consumer<SchedulelProvider>(
+                              builder: (context, scheduleProvider, child) {
+                            return TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter subject name';
+                                }
+                                return null;
+                              },
+                              decoration:
+                                  InputDecoration(labelText: 'Subject Name'),
+                              controller: subjectController,
+                            );
+                          }))),
                 ],
               ),
               Padding(
@@ -102,13 +114,36 @@ class EditFriday_8_State extends State<EditFriday_8> {
                             style: TextStyle(fontSize: 15),
                           ),
                         ),
-                      )))
+                      ))),
+              if (subjectController.text.isNotEmpty)
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: 330,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              //if (_formKey.currentState!.validate()) {
+                              updateUserValue("");
+                              _addLabelSchedule();
+                              Navigator.pop(context);
+                              //}
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )))
             ],
           ),
         ));
   }
 
-  _addLabelSchedule() {
+  _addLabelSchedule() async {
     final schedule = ScheduleM(
       id: 44,
       subject: subject_name,
@@ -117,6 +152,7 @@ class EditFriday_8_State extends State<EditFriday_8> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
+    refreshOrGetScheduleData(context);
   }
 
   _updateLabelSchedule() {

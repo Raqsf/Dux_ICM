@@ -77,7 +77,7 @@ class _EditAnnotationScreenState extends State<EditAnnotationScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    refreshOrGetData(context);
+    refreshOrGetAnnotationsData(context);
   }
 
   @override

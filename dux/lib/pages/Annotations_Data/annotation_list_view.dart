@@ -67,7 +67,7 @@ class AnnotationListViewWidget extends StatelessWidget {
             }
           });
         }
-        refreshOrGetData(scaffoldContext!);
+        refreshOrGetAnnotationsData(scaffoldContext!);
       },
       child: AnnotationCardWidget(
         annotation: currentAnnotation,

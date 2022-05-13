@@ -32,13 +32,13 @@ class _AllAnnotationsScreenState extends State<AllAnnotationsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    refreshOrGetData(context);
+    refreshOrGetAnnotationsData(context);
 
     if (_isLoading == true) {
       Future.wait([
         /* _loadViewMode(),
         Provider.of<LocaleProvider>(context, listen: false).fetchLocale(), */
-        refreshOrGetData(context),
+        refreshOrGetAnnotationsData(context),
       ]).whenComplete(() {
         setState(() {
           _isLoading = false;
@@ -103,7 +103,7 @@ class _AllAnnotationsScreenState extends State<AllAnnotationsScreen> {
                     child: CircularProgressIndicator(),
                   )
                 : RefreshIndicator(
-                    onRefresh: () => refreshOrGetData(context),
+                    onRefresh: () => refreshOrGetAnnotationsData(context),
                     child: Consumer<AnnotationProvider>(
                       builder: (context, noteProvider, child) =>
                           noteProvider.items.isNotEmpty

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../functions/future_functions.dart';
 import '../../subject.dart';
 import '../../widget.dart';
 import '../../../../models/schedule_model.dart';
@@ -24,17 +25,23 @@ class EditWednesday_11 extends StatefulWidget {
 
 class EditWednesday_11_State extends State<EditWednesday_11> {
   final _formKey = GlobalKey<FormState>();
-  final subjectController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
   late String day;
   late String hours;
   late String subject_name;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshOrGetScheduleData(context);
+  }
+
+  /* @override
   void dispose() {
     subjectController.dispose();
     super.dispose();
-  }
+  } */
 
   void updateUserValue(String name) {
     subject.subject_W_11 = name;
@@ -43,6 +50,8 @@ class EditWednesday_11_State extends State<EditWednesday_11> {
 
   @override
   Widget build(BuildContext context) {
+    subjectController.text =
+        Provider.of<SchedulelProvider>(context, listen: false).subject_W_11;
     return Scaffold(
         appBar: buildAppBar(context),
         body: Form(
@@ -101,7 +110,30 @@ class EditWednesday_11_State extends State<EditWednesday_11> {
                             style: TextStyle(fontSize: 15),
                           ),
                         ),
-                      )))
+                      ))),
+              if (subjectController.text.isNotEmpty)
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: 330,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              //if (_formKey.currentState!.validate()) {
+                              updateUserValue("");
+                              _addLabelSchedule();
+                              Navigator.pop(context);
+                              //}
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )))
             ],
           ),
         ));
@@ -116,6 +148,7 @@ class EditWednesday_11_State extends State<EditWednesday_11> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
+    refreshOrGetScheduleData(context);
   }
 
   _updateLabelSchedule() {

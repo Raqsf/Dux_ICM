@@ -40,8 +40,6 @@ class StepsDatabaseHelper {
       if (today.day == day(dateFormat)) {
         return Steps.fromJson(records.first);
       } else {
-        // isToday tem q ficar false
-        // dia de hoje tem de ficar true
         updateToday();
         final newToday = await db.query(
           stepsTable,
@@ -54,10 +52,8 @@ class StepsDatabaseHelper {
       DateTime date = DateTime.now();
       String dateFormat = DateFormat('EEEE').format(date);
       Steps s = Steps(day: day(dateFormat), steps: 0, isToday: 1);
-      print("get Today, no today");
       insertRecord(s);
       return s;
-      //throw Exception('Today not found');
     }
   }
 
@@ -86,7 +82,6 @@ class StepsDatabaseHelper {
   }
 
   Future<int> updateSteps() async {
-    print("HERE");
     final db = await DatabaseHelper.instance.database;
     Steps today = await getToday();
 
@@ -99,17 +94,7 @@ class StepsDatabaseHelper {
       'isToday': 1
     };
 
-    print(steps);
-    print(newToday);
-
     return updateRecord(Steps.fromJson(newToday));
-
-    /* return await db.update(
-      stepsTable,
-      newToday,
-      where: '${StepsField.isToday} = ?',
-      whereArgs: [1],
-    ); */
   }
 
   Future<int> updateRecord(Steps steps) async {
