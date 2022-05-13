@@ -29,12 +29,7 @@ flutter run
 [GitHub](https://github.com/Raqsf/Dux_ICM)
 
 ## Authors
-<<<<<<< HEAD
 
 - [Diana Oliveira](https://github.com/DianaSiso), nMec 98607
 - [Raquel Ferreira](https://github.com/Raqsf/), nMec 98323
 
-=======
-- Diana Siso
-- Raquel Ferreira
->>>>>>> 8fd4eeac1ac9eda5654d3e5eece4de5143e0657a
