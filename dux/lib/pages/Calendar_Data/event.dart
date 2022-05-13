@@ -8,15 +8,12 @@ class Event {
   final Color backgroundColor;
   final bool isAllDay;
 
-
-const Event({
-  required this.title,
-  required this.description,
-  required this.from,
-  required this.to,
-  this.backgroundColor = Colors.lightGreen,
-  this.isAllDay = false,
-
-});
-
+  const Event({
+    required this.title,
+    required this.description,
+    required this.from,
+    required this.to,
+    this.backgroundColor = Colors.lightGreen,
+    this.isAllDay = false,
+  });
 }

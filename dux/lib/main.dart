@@ -1,16 +1,30 @@
+import 'package:dux/pages/Notes_Data/AllLabelsScreen.dart';
+import 'package:dux/pages/Notes_Data/AllNotesScreen.dart';
+import 'package:dux/pages/Pomodoro_Data/Pomodoro.dart';
+import 'package:dux/providers/schedule_provider.dart';
+import 'package:dux/providers/annotation_provider.dart';
+import 'package:dux/providers/label_provider.dart';
+import 'package:dux/providers/note_provider.dart';
+import 'package:dux/providers/steps_provider.dart';
 import 'package:flutter/material.dart';
-import './pages/SecondScreen.dart';
-import './pages/ThirdScreen.dart';
-import 'pages/Profile_Data/ProfilePage.dart';
+import 'package:dux/pages/NoteType.dart';
+import 'package:dux/pages/Profile_Data/ProfilePage.dart';
+import 'package:dux/pages/Calendar_Data/Calendar.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
-import 'pages/Calendar_Data/Calendar.dart';
+import 'package:provider/provider.dart';
+import 'package:dux/pages/Schedule_Data/schedule.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => NoteProvider()),
+      ChangeNotifierProvider(create: (_) => LabelProvider()),
+      ChangeNotifierProvider(create: (_) => AnnotationProvider()),
+      ChangeNotifierProvider(create: (_) => SchedulelProvider()),
+      ChangeNotifierProvider(create: (_) => StepsProvider())
+    ], child: const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +48,14 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
-      //theme: ThemeData(primaryColor: Colors.black),
+      initialRoute: '/',
+      routes: {
+        '/notes': (context) => const AllNotesScreen(),
+        '${AllLabelsScreen.routeName}/annotations': (context) =>
+            const AllLabelsScreen(isNote: false),
+        AllLabelsScreen.routeName: (context) =>
+            const AllLabelsScreen(isNote: true),
+      },
       home: const MyFirstScreen(),
     );
   }
@@ -60,13 +81,9 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     Calendar(),
-    ThirdScreen(),
-    Container(
-      child: const Text("Fourth page"),
-    ),
-    Container(
-      child: const Text("Fifth page"),
-    ),
+    Schedule(),
+    Pomodoro(),
+    const NoteType(),
     ProfilePage(),
   ];
 
@@ -85,6 +102,7 @@ class _MyFirstScreenState extends State<MyFirstScreen> {
             data: Theme.of(context)
                 .copyWith(canvasColor: const Color(0xfff0f0f0)),
             child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
                 unselectedItemColor: const Color(0xffbbbbbb),

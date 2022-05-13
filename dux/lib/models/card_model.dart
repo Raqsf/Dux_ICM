@@ -1,50 +1,61 @@
 class CardClass {
-  String className;
+  String title;
   //Map schedule;
   String startTime;
   String endTime;
-  String room;
-  int cardBackground;
-  int secondColor;
+  String place;
 
-  CardClass(this.className, this.startTime, this.endTime, this.room,
-      this.cardBackground, this.secondColor);
+  CardClass(this.title, this.startTime, this.endTime, this.place);
 }
 
 var cardData = [
   {
-    "className": "Biology",
+    "title": "Biology",
     "start": "10",
-    "end": "12",
-    "room": "4.1.2",
-    "cardBackground": 0xFFFF7648,
-    "cardSecondColor": 0xFFFFC278,
+    "end": "11",
+    "place": "4.1.2",
   },
   {
-    "className": "Maths",
-    "start": "13:30",
-    "end": "15:30",
-    "room": "4.1.2",
-    "cardBackground": 0xFF8F98FF,
-    "cardSecondColor": 0xFF182A88,
+    "title": "Maths",
+    "start": "13",
+    "end": "14",
+    "place": "4.1.2",
+  },
+];
+
+var eventData = [
+  {
+    "title": "Meeting",
+    "start": "9",
+    "end": "10",
+    "place": "Building",
+  },
+  {
+    "title": "Workout",
+    "start": "16",
+    "end": "17",
+    "place": "Gym",
   },
 ];
 
 List<CardClass> cards = cardData
     .map(
       (item) => CardClass(
-          item['className'].toString(),
-          item['start'].toString(),
-          item['end'].toString(),
-          item['room'].toString(),
-          int.parse(item['cardBackground'].toString()),
-          int.parse(item['cardSecondColor'].toString())),
+        item['title'].toString(),
+        item['start'].toString(),
+        item['end'].toString(),
+        item['place'].toString(),
+      ),
     )
     .toList();
 
-
-// List<CardModel> cards = cardData.map((item) => CardModel(item['']));
-
-// var cardData = [
-//   {"class": "Biology", "day": "monday", "start": 10, "duration": 2}
-// ];
+List<CardClass> cardsEvent = eventData
+    .map(
+      (item) => CardClass(
+        item['title'].toString(),
+        item['start'].toString(),
+        item['end'].toString(),
+        item['place'].toString(),
+      ),
+    )
+    .toList();
