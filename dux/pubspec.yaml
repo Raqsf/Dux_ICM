@@ -67,6 +67,9 @@ dependencies:
   string_validator: ^0.3.0
   #create splash screen
 
+  #google maps
+  google_maps_flutter: ^2.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
