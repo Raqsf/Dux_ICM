@@ -97,7 +97,11 @@ class EditTuesday_12_State extends State<EditTuesday_12> {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               updateUserValue(subjectController.text);
-                              _addLabelSchedule();
+                              if (subjectController.text == "") {
+                                _addLabelSchedule();
+                              } else {
+                                _updateLabelSchedule();
+                              }
                               Navigator.pop(context);
                             }
                           },
@@ -145,5 +149,16 @@ class EditTuesday_12_State extends State<EditTuesday_12> {
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
     refreshOrGetScheduleData(context);
+  }
+
+  _updateLabelSchedule() {
+    final schedule = ScheduleM(
+      id: 15,
+      subject: subject_name,
+      day: 'Tuesday',
+      hours: '12:00 - 13:00',
+    );
+
+    Provider.of<SchedulelProvider>(context, listen: false).update(schedule);
   }
 }
