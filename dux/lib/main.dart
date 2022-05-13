@@ -13,6 +13,8 @@ import 'package:dux/pages/Calendar_Data/Calendar.dart';
 import 'package:dux/pages/Home_Data/HomePage.dart';
 import 'package:provider/provider.dart';
 import 'package:dux/pages/Schedule_Data/schedule.dart';
+import 'pages/Calendar_Data/Calendar.dart';
+import 'pages/Pomodoro_Data/Pomodoro.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => NoteProvider()),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dux/utils.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import './Map_Data/map_screen.dart';
 
 class EventEditingPage extends StatefulWidget {

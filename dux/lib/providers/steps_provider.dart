@@ -16,7 +16,6 @@ class StepsProvider with ChangeNotifier {
   }
 
   Future getToday() async {
-    print("GET TODAY PROVIDER");
     _today = await StepsDatabaseHelper.instance.getToday();
     notifyListeners();
   }

@@ -97,11 +97,7 @@ class EditFriday_13_State extends State<EditFriday_13> {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               updateUserValue(subjectController.text);
-                              if (subjectController.text == "") {
-                                _addLabelSchedule();
-                              } else {
-                                _updateLabelSchedule();
-                              }
+                              _addLabelSchedule();
                               Navigator.pop(context);
                             }
                           },
