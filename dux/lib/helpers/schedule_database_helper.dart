@@ -28,7 +28,7 @@ class ScheduleDatabaseHelper {
 
     final records = await db.query(
       scheduleTable,
-      orderBy: '${ScheduleField.id} DESC',
+      orderBy: '${ScheduleField.id} ASC',
     );
 
     return records.map((e) => ScheduleM.fromJson(e)).toList();
@@ -37,10 +37,14 @@ class ScheduleDatabaseHelper {
   Future<int> insertRecord(ScheduleM schedule) async {
     final db = await DatabaseHelper.instance.database;
 
-    return await db.insert(
-      scheduleTable,
-      schedule.toJson(),
-    );
+    try {
+      return await db.insert(
+        scheduleTable,
+        schedule.toJson(),
+      );
+    } on Exception {
+      return updateRecord(schedule);
+    }
   }
 
   Future<int> updateRecord(ScheduleM schedule) async {

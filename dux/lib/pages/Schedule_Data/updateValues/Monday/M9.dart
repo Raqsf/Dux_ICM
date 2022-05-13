@@ -25,17 +25,23 @@ class EditMonday_9 extends StatefulWidget {
 
 class EditMonday_9_State extends State<EditMonday_9> {
   final _formKey = GlobalKey<FormState>();
-  final subjectController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
   late String day;
   late String hours;
   late String subject_name;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshOrGetScheduleData(context);
+  }
+
+  /* @override
   void dispose() {
     subjectController.dispose();
     super.dispose();
-  }
+  } */
 
   void updateUserValue(String name) {
     subject.subject_M_9 = name;
@@ -44,6 +50,8 @@ class EditMonday_9_State extends State<EditMonday_9> {
 
   @override
   Widget build(BuildContext context) {
+    subjectController.text =
+        Provider.of<SchedulelProvider>(context, listen: false).subject_M_9;
     return Scaffold(
         appBar: buildAppBar(context),
         body: Form(
@@ -113,6 +121,6 @@ class EditMonday_9_State extends State<EditMonday_9> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
-    refreshOrGetData(context);
+    refreshOrGetScheduleData(context);
   }
 }

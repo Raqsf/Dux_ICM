@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../functions/future_functions.dart';
 import '../../subject.dart';
 import '../../widget.dart';
 import '../../../../models/schedule_model.dart';
@@ -24,25 +25,34 @@ class EditThursday_9 extends StatefulWidget {
 
 class EditThursday_9_State extends State<EditThursday_9> {
   final _formKey = GlobalKey<FormState>();
-  final subjectController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
   var subject = SubjectData.mySubject;
   late String day;
   late String hours;
   late String subject_name;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshOrGetScheduleData(context);
+  }
+
+  /* @override
   void dispose() {
     subjectController.dispose();
     super.dispose();
-  }
+  } */
 
   void updateUserValue(String name) {
     subject.subject_Q_9 = name;
     subject_name = name;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    subjectController.text =
+        Provider.of<SchedulelProvider>(context, listen: false).subject_Q_9;
     return Scaffold(
         appBar: buildAppBar(context),
         body: Form(
@@ -59,11 +69,13 @@ class EditThursday_9_State extends State<EditThursday_9> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 40, 16, 0),
-                      child: SizedBox(
-                          height: 100,
-                          width: 150,
-                          child: TextFormField(
+                    padding: EdgeInsets.fromLTRB(0, 40, 16, 0),
+                    child: SizedBox(
+                        height: 100,
+                        width: 150,
+                        child: Consumer<SchedulelProvider>(
+                            builder: (context, scheduleProvider, child) {
+                          return TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter subject name';
@@ -73,7 +85,9 @@ class EditThursday_9_State extends State<EditThursday_9> {
                             decoration:
                                 InputDecoration(labelText: 'Subject Name'),
                             controller: subjectController,
-                          ))),
+                          );
+                        })),
+                  )
                 ],
               ),
               Padding(
@@ -97,7 +111,53 @@ class EditThursday_9_State extends State<EditThursday_9> {
                             style: TextStyle(fontSize: 15),
                           ),
                         ),
-                      )))
+                      ))),
+              if (subjectController.text.isNotEmpty)
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: 330,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              //if (_formKey.currentState!.validate()) {
+                              updateUserValue("");
+                              _deleteLabelSchedule();
+                              Navigator.pop(context);
+                              //}
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ))),
+              if (subjectController.text.isNotEmpty)
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: 330,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              //if (_formKey.currentState!.validate()) {
+                              updateUserValue("");
+                              _deleteLabelSchedule();
+                              Navigator.pop(context);
+                              //}
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        )))
             ],
           ),
         ));
@@ -112,5 +172,19 @@ class EditThursday_9_State extends State<EditThursday_9> {
     );
 
     Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
+    refreshOrGetScheduleData(context);
+  }
+
+  _deleteLabelSchedule() {
+    final schedule = ScheduleM(
+      id: 34,
+      subject: "",
+      day: 'Thursday',
+      hours: '9:00 - 10:00',
+    );
+
+    Provider.of<SchedulelProvider>(context, listen: false).add(schedule);
+    //Provider.of<SchedulelProvider>(context, listen: false).delete(34);
+    refreshOrGetScheduleData(context);
   }
 }

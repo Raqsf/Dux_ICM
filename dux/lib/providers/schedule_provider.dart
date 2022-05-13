@@ -634,6 +634,7 @@ class SchedulelProvider with ChangeNotifier {
   }
 
   Future delete(int id) async {
+    print(id);
     _items.removeWhere((e) => e.id == id);
     notifyListeners();
     await ScheduleDatabaseHelper.instance.deleteRecord(id);
