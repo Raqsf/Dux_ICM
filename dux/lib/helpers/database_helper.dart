@@ -80,7 +80,7 @@ class DatabaseHelper {
 
         await db.execute('''
             CREATE TABLE $stepsTable (
-              ${StepsField.day} TEXT,
+              ${StepsField.day} INTEGER PRIMARY KEY,
               ${StepsField.steps} INTEGER,
               ${StepsField.isToday} INTEGER
             )

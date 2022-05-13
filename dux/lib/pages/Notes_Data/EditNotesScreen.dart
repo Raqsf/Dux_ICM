@@ -84,23 +84,8 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         child: Scaffold(
           backgroundColor: _bgColor,
           appBar: AppBar(
-            /* leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-                deleteFileList(_tmpAddedImageFiles);
-              },
-            ), */
             backgroundColor: Theme.of(context).primaryColor,
             actions: [
-              /* IconButton(
-                icon: const Icon(Icons.camera_alt),
-                onPressed: () => _addImageFromCamera(ImageSource.camera),
-              ),
-              IconButton(
-                onPressed: _addManyImagesFromGallery,
-                icon: const Icon(Icons.photo),
-              ), */
               IconButton(
                 onPressed: _deleteNote,
                 icon: const Icon(Icons.delete),
@@ -120,10 +105,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
           ),
           body: ListView(
             children: [
-              /* ImagesStaggeredGridView(
-                imagePaths: _imagePaths,
-                tmpDeletedImagePaths: _tmpDeletedImageFiles,
-              ), */
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
